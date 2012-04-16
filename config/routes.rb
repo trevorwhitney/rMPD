@@ -1,4 +1,4 @@
-Gamez::Application.routes.draw do
+Rmpd::Application.routes.draw do
 
   resources :user_sessions, :only => [:new, :create, :destroy]
 
@@ -14,7 +14,6 @@ Gamez::Application.routes.draw do
   end
 
   namespace :members do
-    resources :games
     resources :users
     match '/profile', :controller => 'users', :action => 'show', 
       :as => :profile

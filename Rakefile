@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Gamez::Application.load_tasks
+Rmpd::Application.load_tasks
