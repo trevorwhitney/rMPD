@@ -1,0 +1,17 @@
+admin:
+  first_name: Joe
+  last_name: Admin
+  username: administrator
+  email: JoeAdmin@gamez.com
+  password_salt: <%= salt = Authlogic::Random.hex_token %>
+  crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("password" + salt) %>
+  persistence_token: <%= Authlogic::Random.hex_token %>
+
+member:
+  first_name: Joe
+  last_name: Member
+  username: member
+  email: JoeMember@gamez.com
+  password_salt: <%= salt = Authlogic::Random.hex_token %>
+  crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("password" + salt) %>
+  persistence_token: <%= Authlogic::Random.hex_token %>

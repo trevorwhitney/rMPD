@@ -1,0 +1,14 @@
+%table.users_table{ :cellspacing => "0" }
+  %thead
+    %tr.users_table_header
+      %th Name
+      %th Username
+      %th Last Login
+      %th Games
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= link_to user.full_name, edit_admin_user_path(user)
+        %td= user.username
+        %td= user.last_login(Time.now)
+        %td

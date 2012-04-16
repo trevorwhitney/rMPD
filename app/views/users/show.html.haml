@@ -1,0 +1,13 @@
+%h2= "Profile for #{@user.username}" 
+%ol.user_profile
+  %li
+    %p.bold Name:
+    %p= @user.full_name
+  %li
+    %p.bold Email:
+    %p= @user.email
+  %li Photo placeholder
+  %li
+    %p.bold Role:
+    %p= user_roles
+  %li= link_to "Edit", @edit_user_path, :class => "button"

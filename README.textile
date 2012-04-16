@@ -1,0 +1,5 @@
+h1. Gamez
+
+p. This is the Gamez application. It demonstrates basic authentication and roles in a multi-user system.
+
+p. I was dumb and started this project in it's own repository. I since moved it into the correct repository, but all commits made before that point can be found at "pyraz/project06/commits/master":https://github.com/pyraz/project06/commits/master

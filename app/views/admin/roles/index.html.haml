@@ -1,0 +1,12 @@
+%table.roles_table{ :cellspacing => "0" }
+  %thead
+    %tr.roles_table_header
+      %th Role
+      %th Description
+      %th # of Users
+  %tbody
+    - @roles.each do |role|
+      %tr
+        %td= link_to role.name, admin_role_path(role)
+        %td= role.description
+        %td

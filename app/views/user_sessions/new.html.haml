@@ -1,0 +1,12 @@
+%h2 Login
+- @user_session.errors.each do |attribute, message|
+  %p.error= "#{attribute} #{message}"
+= form_for @user_session do |form|
+  %ol.form_list
+    %li
+      = form.label :username, "Username"
+      = form.text_field :username
+    %li
+      = form.label :password, "Password"
+      = form.password_field :password
+    %li= form.submit "Submit"

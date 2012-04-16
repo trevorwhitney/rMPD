@@ -1,0 +1,21 @@
+%h2= @role.name
+.description= @role.description
+
+%span= link_to "Edit", edit_admin_role_path(@role), :class => 'button'
+
+%h3= "List of #{@role.name.pluralize}"
+%table.users_table
+  %thead
+    %tr
+      %th Name
+      %th Username
+      %th Email
+      %th Last Login
+      %th Games
+  %tbody
+    - @role.users.each do |user|
+      %td= link_to user.full_name, admin_user_path(user)
+      %td= user.username
+      %td= user.email
+      %td= user.last_login(Time.now)
+      %td

@@ -1,0 +1,28 @@
+= form_for @user, :url => @form_url do |form|
+	- @user.errors.each do |attribute, msg|
+		%p.error= "#{attribute} #{msg}"
+	%ol.form_list
+		%li
+			= form.label :username
+			= username_text_field(form)
+		%li
+			= form.label :password
+			= form.password_field :password
+		%li
+			= form.label :password_confirmation
+			= form.password_field :password_confirmation
+		%li
+			= form.label :first_name
+			= form.text_field :first_name
+		%li
+			= form.label :last_name
+			= form.text_field :last_name
+		%li
+			= form.label :email
+			= form.text_field :email
+		%li.clear
+			= form.label "Photo placeholder"
+		%li
+			= form.label :roles
+			= user_roles_select
+		%li= form.submit "Submit"

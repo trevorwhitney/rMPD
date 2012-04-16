@@ -1,0 +1,6 @@
+%h2= "Editing the #{@role.name} role"
+%ul.role_form
+  = form_for @role, :url => :admin_role do |f|
+    %li= f.label :description
+    %li= f.text_area :description, :size => "25x10"
+    %li= f.submit "Submit"

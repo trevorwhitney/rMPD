@@ -1,0 +1,13 @@
+@import "blueprint/buttons"
+
+.roles_table, .users_table
+  $table-color: rgb(176, 196, 222)
+  $alt-table-color: adjust-hue($table-color, -16deg)
+  +table-scaffolding
+  +inner-table-borders(1px, darken($table-color, 40%))
+  +outer-table-borders(2px)
+  +alternating-rows-and-columns($table-color, $alt-table-color, #111)
+  border-spacing: 0px
+
+ul.role_form
+  +no-bullets

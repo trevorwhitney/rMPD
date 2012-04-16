@@ -1,0 +1,16 @@
+!!! 5
+%html
+%head
+  %title Gamez
+  = stylesheet_link_tag    "application", :media => "all"
+  = javascript_include_tag "application"
+  = csrf_meta_tags
+
+%body.bp
+  #container
+    #nav
+      .user_nav= render "users/actions"
+      %h1#masthead= link_to "Gamez", root_url
+      = admin_nav unless current_user.nil?
+    = render "flash/messages"
+    #content= yield

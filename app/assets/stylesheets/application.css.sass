@@ -1,0 +1,57 @@
+@import "partials/base"
+@import "users"
+@import "admin/roles"
+
+#masthead
+  text-align: center
+
+form
+  +blueprint-form
+
+//Forms
+.form_list
+  +no-bullets
+  li
+    width: 500px
+    label
+      width: 175px
+      display: inline-block
+
+ul.admin_nav
+  +no-bullets
+  +horizontal-list
+  display: block
+  border: 1px solid #000
+
+.notice
+  +notice
+
+.success
+  +success
+
+.error
+  +error
+
+a.button
+  $button-border-color: #dedede
+  $button-background-color: rgb(176, 196, 222)
+  $button-highlight-color: #f5f5f5
+  $button-font-color: #565656
+  +button-button
+  +button-hover-colors($button-font-color, $button-background-color, $button-border-color, $button-highlight-color)
+  color: #000
+  border-color: #000
+
+input[type=submit], input.submit
+  $button-border-color: #dedede
+  $button-background-color: rgb(176, 196, 222)
+  $button-highlight-color: #f5f5f5
+  $button-font-color: #565656
+  +button-button
+  +button-hover-colors($button-font-color, $button-background-color, $button-border-color, $button-highlight-color)
+  color: #000
+  border-color: #000
+
+.field_with_errors
+  color: rgb(141, 31, 23)
+  display: inline-block
