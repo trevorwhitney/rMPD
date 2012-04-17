@@ -1,8 +1,10 @@
-$blueprint-grid-columns   : 24
-$blueprint-container-size : 950px
-$blueprint-grid-margin    : 10px
+@import compass
+@import blueprint/form
+@import blueprint/colors
+@import blueprint/interaction
+@import blueprint/liquid
 
-// Use this to calculate the width based on the total width.
-// Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
-$blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin
+$blueprint-liquid-grid-columns: 24
+$blueprint-liquid-container-width: 99%
+
 

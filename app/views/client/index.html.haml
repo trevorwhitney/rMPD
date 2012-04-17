@@ -1,2 +1,36 @@
-%h1 Client#index
-%p Find me in app/views/client/index.html.haml
+#controls
+  #image= image_tag('trance.jpg', :size => '75x75')
+  #song_info
+    %span#title Chubb Sub
+    %span#album_artist from Last Chance to Dance Trance (perhaps) by Medeski Martin Wood
+    #track_seek
+      %input{ :type => 'range', :min => '0', :max => '100' }
+  #buttons
+    #control
+      %ul#music_controls
+        %li= image_tag('media-seek-backward.png')
+        %li= image_tag('media-playback-start.png')
+        %li= image_tag('media-playback-stop.png')
+        %li= image_tag('media-seek-forward.png')
+        %li Outputs
+        %li= image_tag('settings.png')
+
+      %ul#volume_control
+        %li#volume_icon= image_tag('audio-volume-medium.png')
+        %li#volume_seek
+          %input{ :type => 'range', :min => '0', :max => '100' }
+#navigation
+  %ul#nav_menu
+    %li Search
+    %li Library
+    %li Filesystem
+    %li Streams
+    %li.last Playlists
+  #artists
+    Artists
+  #albums
+    Albums
+#library
+  Library
+#playlist
+  Playlist

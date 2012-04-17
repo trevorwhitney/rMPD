@@ -1,3 +1,80 @@
-// Place all the styles related to the Client controller here.
-// They will automatically be included in application.css.
-// You can use Sass here: http://sass-lang.com/
+#controls, #navigation, #library, #playlist
+  float: none
+  clear: both
+
+#controls
+  width: 100%
+  border-bottom: 1px solid #000
+  height: 75px
+  div
+    +float(left)
+  #image
+    +column(2)
+    img
+      margin-left: 3px
+  #song_info
+    +column(15)
+    span
+      display: block
+      font-size: 14pt
+    #track_seek
+      width: 100%
+      input
+        width: 99%
+  #buttons
+    +column(7)
+    +last
+    +float(right)
+    #control
+      +float(right)
+      margin: 0 span-fluid(1)
+      #music_controls
+        +horizontal-list
+        +no-bullets
+      #volume_control
+        +horizontal-list
+        +no-bullets
+        li#volume_icon
+          width: 22px
+        li#volume_seek
+          width: 80%
+          input
+            width: 100%
+
+#navigation
+  margin-top: 0
+  position: relative
+  bottom: 4px
+  ul#nav_menu
+    +column(24)
+    +horizontal-list
+    +no-bullets
+    display: block
+    border-bottom: 1px #000 solid
+    li
+      width: 19.5%
+      padding: 0
+      margin: 0
+      text-align: center
+      border-right: 1px #000 solid
+    li.last
+      border-right: 0
+      float: right
+  div
+    +float(left)
+    height: 100%
+    margin-top: 0
+  #artists
+    +column(12)
+    border-right: 1px #000 solid
+  #albums
+    +column(12)
+    +last
+
+
+#library
+  +column(24)
+  border-top: 1px #000 solid
+
+
+#playlist

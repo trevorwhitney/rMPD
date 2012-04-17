@@ -1,7 +1,13 @@
-@import "partials/base"
-@import "users"
-@import "admin/roles"
-@import "client"
+@import partials/base
+@import users
+@import admin/roles
+@import client
+
+#container
+  +container
+  border: 1px #000 solid
+
+#nav
 
 #masthead
   text-align: center
@@ -56,3 +62,7 @@ input[type=submit], input.submit
 .field_with_errors
   color: rgb(141, 31, 23)
   display: inline-block
+
+.clear
+  float: none
+  clear: both
