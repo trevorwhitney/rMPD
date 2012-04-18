@@ -45,6 +45,7 @@
   margin-top: 0
   position: relative
   bottom: 4px
+  height: 300px
   ul#nav_menu
     +column(24)
     +horizontal-list
@@ -65,16 +66,26 @@
     height: 100%
     margin-top: 0
   #artists
-    +column(12)
+    +column(8)
     border-right: 1px #000 solid
+    overflow-y: scroll
+    overflow-x: hidden
+    ul#artist_list
+      +no-bullets
+      li
+        cursor: pointer
+      li.selected
+        background-color: red
   #albums
-    +column(12)
+    +column(8)
+    overflow-y: scroll
+    overflow-x: hidden
+    ul#album_list
+      +no-bullets
+  #songs
+    +column(8)
     +last
 
-
-#library
+#playlist
   +column(24)
   border-top: 1px #000 solid
-
-
-#playlist
