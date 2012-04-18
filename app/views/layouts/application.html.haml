@@ -7,7 +7,9 @@
   = csrf_meta_tags
 
 %body.bp
-  #container
+  #loading
+    Loading...
+  #container{ :class => 'hidden' }
     #nav
     = render "flash/messages"
     = yield
