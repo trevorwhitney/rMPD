@@ -11,8 +11,6 @@
   clear: both
 
 #controls
-  width: 100%
-  border-bottom: 1px solid #000
   height: 75px
   div
     +float(left)
@@ -35,7 +33,6 @@
     +float(right)
     #control
       +float(right)
-      margin: 0 span-fluid(1)
       #music_controls
         +horizontal-list
         +no-bullets
@@ -55,27 +52,26 @@
   bottom: 4px
   height: 300px
   ul#nav_menu
-    +column(24)
     +horizontal-list
     +no-bullets
     display: block
     border-bottom: 1px #000 solid
+    border-top: 1px #000 solid
     li
-      width: 19.5%
+      +column(6)
       padding: 0
       margin: 0
       text-align: center
       border-right: 1px #000 solid
     li.last
       border-right: 0
-      float: right
   div
     +float(left)
     height: 100%
     margin-top: 0
   
   #artists
-    +column(8)
+    width: 33%
     +vertical-scroll
     border-right: 1px #000 solid
     ul#artist_list
@@ -86,7 +82,7 @@
         +selected
 
   #albums
-    +column(8)
+    width: 33%
     +vertical-scroll
     ul#album_list
       +no-bullets
@@ -95,7 +91,7 @@
       li.selected
         +selected
   #tracks
-    +column(8)
+    width: 34%
     +vertical-scroll
     +last
     ul#track_list
@@ -108,5 +104,4 @@
       margin-left: 5px
 
 #playlist
-  +column(24)
   border-top: 1px #000 solid
