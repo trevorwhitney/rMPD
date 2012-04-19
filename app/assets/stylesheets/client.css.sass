@@ -92,9 +92,15 @@
         cursor: pointer
       li.selected
         +selected
-  #songs
+  #tracks
     +column(8)
     +last
+    ul#tracks_list
+      +no-bullets
+      li
+        cursor: pointer
+      li.selected
+        +selected
 
 #playlist
   +column(24)
