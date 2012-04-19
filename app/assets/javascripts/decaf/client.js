@@ -3,7 +3,7 @@
 //The album hash is indexed by the albums name, and will return
 //an array of songs. Each song is a hash, as returned by MPD
 //for mor information, see the get_library() function, as well
-//as the parsed json file
+//as the library.json file
 var library = {};
 
 
@@ -159,7 +159,7 @@ function load_tracks(artist, album) {
       });
     });
   }
-  
+
   //a specific artist was provided, excellent! We can skip a few loops and
   //dig straight down to the album
   else {
@@ -188,14 +188,18 @@ function load_tracks(artist, album) {
   if (tracks["nil"] != null) {
     tracks["nil"].sort();
     $.each(tracks["nil"], function(i, title) {
-      $("ul#tracks_list").append("<li class=\"track\">" + title + "</li>");
-    })
+      $("ul#track_list").append("<li class=\"track\">" +
+        "<span class=\"track_number\"></span>" + 
+        "<span class=\"track_name\">" + title + "</span></li>");
+    });
   }
 
   //print all the other tracks with track numbers, now nice and sorted
   $.each(_tracks, function(track, title) {
     if(track != 0) {
-      $("ul#tracks_list").append("<li class=\"track\">" + track + ": " + title + "</li>");
+      $("ul#track_list").append("<li class=\"track\">" + 
+        "<span class=\"track_number\">" + track + "</span>" + 
+        "<span class=\"track_name\">" + title + "</span></li>");
     }
   });
 }
