@@ -137,11 +137,15 @@ function load_tracks(artist, album) {
   var tracks = {};
   var _tracks = {};
   var track_nums = [];
+
+  //if the artist is "All", need to do things the long way
   if (artist == "All") {
     $.each(library, function(artist, albums) {
       $.each(albums, function(_album, songs) {
         if (_album == album) {
           $.each(songs, function(i, song) {
+            
+            //conditional to handle the case of songs without a track number
             if (song.track != null) {
               tracks[song.track] = song.title;
               track_nums.push(parseInt(song.track));
@@ -155,9 +159,14 @@ function load_tracks(artist, album) {
       });
     });
   }
+  
+  //a specific artist was provided, excellent! We can skip a few loops and
+  //dig straight down to the album
   else {
     var songs = library[artist][album];
     $.each(songs, function(i, song) {
+      
+      //again, conditional for blank track case
       if (song.track != null) {
         tracks[song.track] = song.title;
         track_nums.push(parseInt(song.track));
@@ -168,16 +177,22 @@ function load_tracks(artist, album) {
       }
     });
   }
+
+  //put the tracks in order based on track number
   track_nums.sort();
   $.each(track_nums, function(i, number) {
     _tracks[number] = tracks[number];
   });
+
+  //if we had blank track numbers, we'll print out those tracks here
   if (tracks["nil"] != null) {
     tracks["nil"].sort();
     $.each(tracks["nil"], function(i, title) {
       $("ul#tracks_list").append("<li class=\"track\">" + title + "</li>");
     })
   }
+
+  //print all the other tracks with track numbers, now nice and sorted
   $.each(_tracks, function(track, title) {
     if(track != 0) {
       $("ul#tracks_list").append("<li class=\"track\">" + track + ": " + title + "</li>");
