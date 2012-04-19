@@ -1,27 +1,29 @@
-var artists = [];
+//library = { artist : }
+var library = {};
 
 $(document).ready(function(){
   $.ajax({
     url:"/library_objects.json",
     async: false,
     success: function(data) {
-      load_artists(data);
+      get_library(data);
     },
     complete:function() {
       $('div#loading').addClass('hidden');
       $('div#container').removeClass('hidden');
     }
   });
-  print_artists(artists);
+  load_artists(library);
+  $('ul#artist_list li:first').addClass('selected');
+  load_albums("All");
   $('li.artist').click(function() {
     clear_selected('artists');
+    clear_albums();
     $(this).toggleClass('selected');
-    //current_albums = current_artist.albums;
+    artist = $(this).text();
+    load_albums(artist);
   });
-  $('li.album').click(function() {
-    clear_selected('albums');
-    $(this).toggleClass('selected');
-  });
+  
 });
 
 function clear_selected(string) {
@@ -33,33 +35,107 @@ function clear_selected(string) {
   }
 }
 
+function clear_albums() {
+  $('li.album').remove();
+}
 
-function load_artists(data) {
-  $.each(data.artists, function(i, artist){
-    var new_artist = { name: artist.name, albums: [] };
-    $.each(artist.albums, function(j, album) {
-      var new_album = { name: album.name, songs: [] };
-      $.each(album.songs, function(k, song) {
-        new_album.songs[k] = song;
-      });
-      new_artist.albums[j] = new_album;
-    });
-    //console.debug(new_artist);
-    artists.push(new_artist);
+function clear_tracks() {
+  $('li.track').remove();
+}
+
+function add_albums_listener() {
+  $('li.album').click(function() {
+    clear_selected('albums');
+    clear_tracks();
+    $(this).toggleClass('selected');
+    album = $(this).text();
+    artist = $('li.artist.selected').text();
+    console.log("Starting loading tracks for" + artist + " " + album);
+    load_tracks(artist, album);
+    console.log("Finished loading tracks...")
   });
 }
 
-function print_artists(_artists) {
-  for (var i = 0; i < _artists.length; i++) {
-    artist = _artists[i];
-    $("ul#artist_list").append("<li class=\"artist\">" + artist.name + "</li>");
-  }
+
+function get_library(data) {
+  $.each(data.artists, function(i, artist){
+    var album_list = {};
+    $.each(artist.albums, function(j, album) {
+      album_list[album.name] = album.songs;
+    });
+    //console.debug(new_artist);
+    library[artist.name] = album_list;
+  });
 }
 
-function load_albums($albums) {
-  for (i = 0; i < $albums.length; i = i + 1) {
-    album = $albums[i];
-    $("ul#album_list").append("<li class=\"album\">" + album + "</li>");
+function load_artists(_library) {
+  var artists = [];
+  $.each(_library, function(name, albums) {
+    artists.push(name);
+  });
+  artists.sort();
+  $.each(artists, function(i, artist) {
+    $("ul#artist_list").append("<li class=\"artist\">" + artist + "</li>");
+  });
+}
+
+function load_albums(artist_string) {
+  var _albums = [];
+  if (artist_string == "All") {
+    $.each(library, function(name, albums) {
+      $.each(albums, function(name, songs) {
+        _albums.push(name);
+      });
+    });
   }
+  else {
+    $albums = library[artist_string];
+    $.each($albums, function(name, songs) {
+      _albums.push(name);
+    });
+  }
+  _albums.sort();
+  $.each(_albums, function(i, album) {
+    $("ul#album_list").append("<li class=\"album\">" + album + "</li>");
+  });
+  add_albums_listener();
+}
+
+function load_tracks(artist, album) {
+  var tracks = {};
+  var _tracks = {};
+  var track_nums = [];
+  if (artist == "All") {
+    $.each(library, function(artist, albums) {
+      $.each(albums, function(_album, songs) {
+        if (_album == album) {
+          $.each(songs, function(i, song) {
+            tracks[song.track] = song.title;
+            track_nums.push(song.track);
+          });
+        }
+      });
+    });
+  }
+  else {
+    var songs = library[artist][album];
+    //console.debug(songs);
+    //console.debug(songs.length);
+    $.each(songs, function(i, song) {
+      tracks[song.track] = song.title;
+      track_nums.push(song.track);
+    });
+  }
+  track_nums.sort();
+  $.each(track_nums, function(i, number) {
+    _tracks[number] = tracks[number];
+  });
+  console.debug(_tracks);
+
+  $.each(_tracks, function(track, title) {
+    if(track != 0) {
+      $("ul#tracks_list").append("<li class=\"track\">" + track + ": " + title + "</li>");
+    }
+  });
 }
 
