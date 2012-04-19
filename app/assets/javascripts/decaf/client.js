@@ -31,6 +31,7 @@ $(document).ready(function(){
   $('li.artist').click(function() {
     clear_selected('artists');
     clear_albums();
+    clear_tracks();
     $(this).toggleClass('selected');
     artist = $(this).text();
     load_albums(artist);
@@ -69,6 +70,9 @@ function clear_selected(string) {
   else if (string == "albums") {
     $('li.album').removeClass('selected');
   }
+  else if (string == "tracks") {
+    $('li.track').removeClass('selected');
+  }
 }
 
 //this removes all entries from the album_list
@@ -84,7 +88,7 @@ function clear_tracks() {
 //this will add click listeners to each element in the album_list
 //this is abstracted to it's own function since the listeners have to be
 //re-initialized after every time album_list is cleared
-function add_albums_listener() {
+function add_album_listeners() {
   $('li.album').click(function() {
     clear_selected('albums');
     clear_tracks();
@@ -92,6 +96,14 @@ function add_albums_listener() {
     album = $(this).text();
     artist = $('li.artist.selected').text();
     load_tracks(artist, album);
+    add_track_listeners();
+  });
+}
+
+function add_track_listeners() {
+  $('li.track').click(function() {
+    clear_selected('tracks');
+    $(this).toggleClass('selected');
   });
 }
 
@@ -128,7 +140,7 @@ function load_albums(artist_string) {
   $.each(_albums, function(i, album) {
     $("ul#album_list").append("<li class=\"album\">" + album + "</li>");
   });
-  add_albums_listener();
+  add_album_listeners();
 }
 
 //this populates the track_list with tracks from a given album
