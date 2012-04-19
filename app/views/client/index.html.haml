@@ -8,10 +8,10 @@
   #buttons
     #control
       %ul#music_controls
-        %li= image_tag('media-seek-backward.png')
-        %li= image_tag('media-playback-start.png')
-        %li= image_tag('media-playback-stop.png')
-        %li= image_tag('media-seek-forward.png')
+        %li#previous= image_tag('previous-track.png')
+        %li#play= image_tag('play.png')
+        %li#stop= image_tag('stop.png')
+        %li#next= image_tag('next-track.png')
         %li Outputs
         %li= image_tag('settings.png')
 
@@ -27,12 +27,13 @@
     %li.last Playlists
   #artists
     %ul#artist_list
+      %lh.artist Artist
       %li.artist All
   #albums
     %table#album_list
       %thead
-        %th Album
-        %th Add
+        %th.album_name Album
+        %th.add_album Add
       %tbody
   #tracks
     %table#track_list
@@ -41,4 +42,12 @@
         %th Title
         %th.add_track Add
 #playlist
-  Playlist
+  %table#playlist_table
+    %thead
+      %th Track
+      %th Title
+      %th Artist
+      %th Album
+      %th Duration
+      %th File
+    %tbody

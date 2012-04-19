@@ -132,7 +132,9 @@ function load_albums(artist_string) {
     $.each(library, function(name, albums) {
       $.each(albums, function(name, songs) {
         if ($.inArray(name, _albums) == -1) {
-          _albums.push(name);
+          if (name.length > 0) {
+            _albums.push(name);
+          }
         }
       });
     });

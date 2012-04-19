@@ -85,39 +85,47 @@
     +vertical-scroll
     table#album_list
       +no-bullets
-      margin: 0 3px
+      margin-left: 5px
+      width: 100%
       tr
-        cursor: pointer
         width: 100%
+      tr.album
+        cursor: pointer
       tr.selected
         +selected
     a.add_album 
       width: 16px
     td.album_name
+    .add_album
+      width: 16px
+      position: relative
+      right: 7px
     td.add_album
       background: url('list-add.png') no-repeat top right
-      width: 16px
   #tracks
     width: 34%
     +vertical-scroll
     +last
     table#track_list
       +no-bullets
-      margin: 0 3px
+      margin-left: 5px
       width: 100%
       tr
-        cursor: pointer
         width: 100%
+      tr.track
+        cursor: pointer
       tr.selected
         +selected
     td.track_number, th.track_number
-      width: 15px
+      width: 25px
+    .add_track
+      position: relative
+      right: 7px
+      width: 16px
     td.add_track
       background: url('list-add.png') no-repeat top right
-    td.add_track, th.add_track
-      position: relative
-      right: 5px
-      width: 16px
 
 #playlist
   border-top: 1px #000 solid
+  table#playlist_table
+    width: 100%
