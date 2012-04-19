@@ -2,6 +2,10 @@
   background-color: blue
   color: white
 
+@mixin vertical-scroll
+  overflow-y: scroll
+  overflow-x: hidden
+
 #controls, #navigation, #library, #playlist
   float: none
   clear: both
@@ -72,9 +76,8 @@
   
   #artists
     +column(8)
+    +vertical-scroll
     border-right: 1px #000 solid
-    overflow-y: scroll
-    overflow-x: hidden
     ul#artist_list
       +no-bullets
       li
@@ -84,8 +87,7 @@
 
   #albums
     +column(8)
-    overflow-y: scroll
-    overflow-x: hidden
+    +vertical-scroll
     ul#album_list
       +no-bullets
       li
@@ -94,6 +96,7 @@
         +selected
   #tracks
     +column(8)
+    +vertical-scroll
     +last
     ul#tracks_list
       +no-bullets
