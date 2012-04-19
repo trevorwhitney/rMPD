@@ -14,20 +14,25 @@ $(document).ready(function(){
   $.ajax({
     url:"/library.json",
     async: false,
+    beforeSend: function(xhr) {
+      $('div#container').hide();
+      $('div#loading').show();
+    },
     success: function(data) {
       get_library(data);
     },
-    complete:function() {
-      $('div#loading').addClass('hidden');
-      $('div#container').removeClass('hidden');
+    complete: function() {
+      //laod the artist and album lists defualting to selecting "All" artists
+      //before showing the library
+      load_artists(library);
+      $('ul#artist_list li:first').addClass('selected');
+      load_albums("All");
+      $('div#loading').hide();
+      $('div#container').show();
     }
   });
 
-  //laod the artist and album lists, adding the necessary listeners to
-  //the artists, and defualting to selecting "All" artists
-  load_artists(library);
-  $('ul#artist_list li:first').addClass('selected');
-  load_albums("All");
+  //add listeners to artists
   $('li.artist').click(function() {
     clear_selected('artists');
     clear_albums();
@@ -68,31 +73,31 @@ function clear_selected(string) {
     $('li.artist').removeClass('selected');
   }
   else if (string == "albums") {
-    $('li.album').removeClass('selected');
+    $('tr.album').removeClass('selected');
   }
   else if (string == "tracks") {
-    $('li.track').removeClass('selected');
+    $('tr.track').removeClass('selected');
   }
 }
 
 //this removes all entries from the album_list
 function clear_albums() {
-  $('li.album').remove();
+  $('tr.album').remove();
 }
 
 //this removes all entries from the track_list
 function clear_tracks() {
-  $('li.track').remove();
+  $('tr.track').remove();
 }
 
 //this will add click listeners to each element in the album_list
 //this is abstracted to it's own function since the listeners have to be
 //re-initialized after every time album_list is cleared
 function add_album_listeners() {
-  $('li.album').click(function() {
+  $('td.album_name').click(function(e) {
     clear_selected('albums');
     clear_tracks();
-    $(this).toggleClass('selected');
+    $(this).parent().toggleClass('selected');
     album = $(this).text();
     artist = $('li.artist.selected').text();
     load_tracks(artist, album);
@@ -101,9 +106,9 @@ function add_album_listeners() {
 }
 
 function add_track_listeners() {
-  $('li.track').click(function() {
+  $('td.track').click(function() {
     clear_selected('tracks');
-    $(this).toggleClass('selected');
+    $(this).parent().toggleClass('selected');
   });
 }
 
@@ -126,19 +131,26 @@ function load_albums(artist_string) {
   if (artist_string == "All") {
     $.each(library, function(name, albums) {
       $.each(albums, function(name, songs) {
-        _albums.push(name);
+        if ($.inArray(name, _albums) == -1) {
+          _albums.push(name);
+        }
       });
     });
   }
   else {
     $albums = library[artist_string];
     $.each($albums, function(name, songs) {
-      _albums.push(name);
+      if ($.inArray(name, _albums) == -1) {
+        _albums.push(name);
+      }
     });
   }
   _albums.sort();
   $.each(_albums, function(i, album) {
-    $("ul#album_list").append("<li class=\"album\">" + album + "</li>");
+    $("table#album_list").append("<tr class=\"album\">" + 
+      "<td class=\"album_name\">" + album + "</td>" +
+      "<td class=\"add_album\" title=\"add album to playlist\">" + 
+      "&nbsp;</td></tr>");
   });
   add_album_listeners();
 }
@@ -200,18 +212,22 @@ function load_tracks(artist, album) {
   if (tracks["nil"] != null) {
     tracks["nil"].sort();
     $.each(tracks["nil"], function(i, title) {
-      $("ul#track_list").append("<li class=\"track\">" +
-        "<span class=\"track_number\"></span>" + 
-        "<span class=\"track_name\">" + title + "</span></li>");
+      $("table#track_list").append("<tr class=\"track\">" +
+        "<td class=\"track_number\"></td>" + 
+        "<td class=\"track_name\">" + title + "</td>" +
+        "<td class=\"add_track\" title=\"add track to playlist\">" +
+        "&nbsp;</td></tr>");
     });
   }
 
   //print all the other tracks with track numbers, now nice and sorted
   $.each(_tracks, function(track, title) {
     if(track != 0) {
-      $("ul#track_list").append("<li class=\"track\">" + 
-        "<span class=\"track_number\">" + track + "</span>" + 
-        "<span class=\"track_name\">" + title + "</span></li>");
+      $("table#track_list").append("<tr class=\"track\">" +
+        "<td class=\"track_number\">" + track + "</td>" + 
+        "<td class=\"track_name\">" + title + "</td>" +
+        "<td class=\"add_track\" title=\"add track to playlist\">" +
+        "&nbsp;</td></tr>");
     }
   });
 }

@@ -48,8 +48,6 @@
 
 #navigation
   margin-top: 0
-  position: relative
-  bottom: 4px
   height: 300px
   ul#nav_menu
     +horizontal-list
@@ -85,26 +83,41 @@
   #albums
     width: 33%
     +vertical-scroll
-    ul#album_list
+    table#album_list
       +no-bullets
-      margin-left: 3px
-      li
+      margin: 0 3px
+      tr
         cursor: pointer
-      li.selected
+        width: 100%
+      tr.selected
         +selected
+    a.add_album 
+      width: 16px
+    td.album_name
+    td.add_album
+      background: url('list-add.png') no-repeat top right
+      width: 16px
   #tracks
     width: 34%
     +vertical-scroll
     +last
-    ul#track_list
+    table#track_list
       +no-bullets
-      margin-left: 3px
-      li
+      margin: 0 3px
+      width: 100%
+      tr
         cursor: pointer
-      li.selected
+        width: 100%
+      tr.selected
         +selected
-    span.track_name
-      margin-left: 15px
+    td.track_number, th.track_number
+      width: 15px
+    td.add_track
+      background: url('list-add.png') no-repeat top right
+    td.add_track, th.add_track
+      position: relative
+      right: 5px
+      width: 16px
 
 #playlist
   border-top: 1px #000 solid
