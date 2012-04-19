@@ -12,7 +12,7 @@ $(document).ready(function(){
   //get the library, which is contained in a cached json file
   //the complete parameter handles the "loading" screen
   $.ajax({
-    url:"/library_objects.json",
+    url:"/library.json",
     async: false,
     success: function(data) {
       get_library(data);
