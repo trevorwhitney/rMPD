@@ -61,6 +61,13 @@ function get_library(data) {
   $.each(data.artists, function(i, artist){
     var album_list = {};
     $.each(artist.albums, function(j, album) {
+      $.each(album.songs, function(k, song) {
+        if (song['track'] != null) {
+          song['track'] = parseInt(song['track']);
+        }
+        song['date'] = parseInt(song['date']);
+        song['time'] = parseInt(song['time']);
+      });
       album_list[album.name] = album.songs;
     });
     //console.debug(new_artist);
@@ -110,8 +117,14 @@ function load_tracks(artist, album) {
       $.each(albums, function(_album, songs) {
         if (_album == album) {
           $.each(songs, function(i, song) {
-            tracks[song.track] = song.title;
-            track_nums.push(song.track);
+            if (song.track != null) {
+              tracks[song.track] = song.title;
+              track_nums.push(parseInt(song.track));
+            }
+            else {
+              tracks["nil"] = [];
+              tracks["nil"].push(song.title);
+            }
           });
         }
       });
@@ -119,19 +132,27 @@ function load_tracks(artist, album) {
   }
   else {
     var songs = library[artist][album];
-    //console.debug(songs);
-    //console.debug(songs.length);
     $.each(songs, function(i, song) {
-      tracks[song.track] = song.title;
-      track_nums.push(song.track);
+      if (song.track != null) {
+        tracks[song.track] = song.title;
+        track_nums.push(parseInt(song.track));
+      }
+      else {
+        tracks["nil"] = [];
+        tracks["nil"].push(song.title);
+      }
     });
   }
   track_nums.sort();
   $.each(track_nums, function(i, number) {
     _tracks[number] = tracks[number];
   });
-  console.debug(_tracks);
-
+  if (tracks["nil"] != null) {
+    tracks["nil"].sort();
+    $.each(tracks["nil"], function(i, title) {
+      $("ul#tracks_list").append("<li class=\"track\">" + title + "</li>");
+    })
+  }
   $.each(_tracks, function(track, title) {
     if(track != 0) {
       $("ul#tracks_list").append("<li class=\"track\">" + track + ": " + title + "</li>");
