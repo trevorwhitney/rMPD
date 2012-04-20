@@ -41,7 +41,44 @@ $(document).ready(function(){
     artist = $(this).text();
     load_albums(artist);
   });
+
+  //ass listeners to navigation
+  $('li#search_button').click(function() {
+    if (!$(this).hasClass('current')) {
+      clear_menu();
+      $('#navigation_content #search_content').show();
+      $(this).addClass('current');
+    }
+  });
+  $('li#library_button').click(function() {
+    if (!$(this).hasClass('current')) {
+      clear_menu();
+      $('#navigation_content #library_content').show();
+      $(this).addClass('current');
+    }
+  });
+  $('li#filesystem_button').click(function() {
+    if (!$(this).hasClass('current')) {
+      clear_menu();
+      $('#navigation_content #filesystem_content').show();
+      $(this).addClass('current');
+    }
+  })
+    $('li#playlist_button').click(function() {
+    if (!$(this).hasClass('current')) {
+      clear_menu();
+      $('#navigation_content #playlist_content').show();
+      $(this).addClass('current');
+    }
+  })
+
+  $('li#library_button').addClass('current');
 });
+
+function clear_menu() {
+  $('ul#nav_menu li.current').removeClass('current');
+  $('#navigation_content > div').hide();
+}
 
 //this builds the whole music library into memory. It takes the data object
 //returned by the above ajax call as it's argument. It then parses through this
@@ -115,12 +152,17 @@ function add_track_listeners() {
 //this populates the artist_list from a given library
 function load_artists(_library) {
   var artists = [];
+  var artist_template = $('#artist_template').html();
   $.each(_library, function(name, albums) {
     artists.push(name);
   });
   artists.sort();
   $.each(artists, function(i, artist) {
-    $("ul#artist_list").append("<li class=\"artist\">" + artist + "</li>");
+    var template_data = {
+      artist_name: artist
+    }
+    $("ul#artist_list").append(
+      Mustache.render(artist_template, template_data));
   });
 }
 
@@ -128,6 +170,7 @@ function load_artists(_library) {
 //if the artist string is "All", it will add all albums to the list
 function load_albums(artist_string) {
   var _albums = [];
+  var album_template = $('#album_template').html();
   if (artist_string == "All") {
     $.each(library, function(name, albums) {
       $.each(albums, function(name, songs) {
@@ -149,10 +192,11 @@ function load_albums(artist_string) {
   }
   _albums.sort();
   $.each(_albums, function(i, album) {
-    $("table#album_list").append("<tr class=\"album\">" + 
-      "<td class=\"album_name\">" + album + "</td>" +
-      "<td class=\"add_album\" title=\"add album to playlist\">" + 
-      "&nbsp;</td></tr>");
+    var template_data = {
+      album_name: album
+    }
+    $("table#album_list").append(
+      Mustache.render(album_template, template_data));
   });
   add_album_listeners();
 }
@@ -163,6 +207,7 @@ function load_tracks(artist, album) {
   var tracks = {};
   var _tracks = {};
   var track_nums = [];
+  var track_template = $('#track_template').html();
 
   //if the artist is "All", need to do things the long way
   if (artist == "All") {
@@ -214,22 +259,23 @@ function load_tracks(artist, album) {
   if (tracks["nil"] != null) {
     tracks["nil"].sort();
     $.each(tracks["nil"], function(i, title) {
-      $("table#track_list").append("<tr class=\"track\">" +
-        "<td class=\"track_number\"></td>" + 
-        "<td class=\"track_name\">" + title + "</td>" +
-        "<td class=\"add_track\" title=\"add track to playlist\">" +
-        "&nbsp;</td></tr>");
+      var template_data = {
+        track_title: title
+      }
+      $("table#track_list").append(
+        Mustache.render(track_template, template_data));
     });
   }
 
   //print all the other tracks with track numbers, now nice and sorted
   $.each(_tracks, function(track, title) {
     if(track != 0) {
-      $("table#track_list").append("<tr class=\"track\">" +
-        "<td class=\"track_number\">" + track + "</td>" + 
-        "<td class=\"track_name\">" + title + "</td>" +
-        "<td class=\"add_track\" title=\"add track to playlist\">" +
-        "&nbsp;</td></tr>");
+      var template_data = {
+        track_number: track,
+        track_title: title
+      }
+      $("table#track_list").append(
+        Mustache.render(track_template, template_data));
     }
   });
 }

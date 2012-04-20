@@ -1,43 +1,75 @@
+//Some script tags for mustache templates
+%script#album_template{ :type => "text/html" }
+  %tr.album
+    %td.album_name {{album_name}}
+    %td.add_album{ :title => "add album to playlist" } &nbsp;
+%script#artist_template{ :type => "text/html" }
+  %li.artist {{ artist_name }}
+%script#track_template{ :type => "text/html" }
+  %tr.track
+    %td.track_number {{ track_number }} 
+    %td.track_title {{ track_title }}
+    %td.add_track{ :title => "add track to playlist" } &nbsp;
+
 #controls
   #buttons
-    #control
+    #media_control
       %ul#music_controls
         %li#previous &nbsp;
         %li#play &nbsp;
         %li#stop &nbsp;
         %li#next &nbsp;
-      %ul#volume_control
-        %li#volume_icon= image_tag('audio-volume-medium.png')
-        %li#volume_seek
+      %ul#track_seek
+        %li#seek_time 0:00
+        %li#seek_bar
           %input{ :type => 'range', :min => '0', :max => '100' }
   #song_info
-    #album_art= image_tag('trance.jpg', :size => '75x75')
     #track_info
+      #album_art= image_tag('trance.jpg', :size => '75x75')
       #metadata
         %span#title Chubb Sub
-        %span#album_artist from Last Chance to Dance Trance (perhaps) by Medeski Martin Wood
-      #track_seek
-        %input{ :type => 'range', :min => '0', :max => '100' }
+        #album_artist 
+          #album_name
+            %span.light from 
+            %span.album_name Last Chance to Dance Trance (perhaps)
+          #artist_name
+            %span.light by
+            %span.artist_name Medeski Martin Wood
   #settings
     %ul
       %li= image_tag('settings.png')
+      %li.volume= image_tag('audio-volume-low.png')
 #navigation
   %ul#nav_menu
-    %li Search
-    %li Library
-    %li Filesystem
-    %li.last Playlists
-  #artists
-    %ul#artist_list
-      %li.artist All
-  #albums
-    %table#album_list
-      %thead
-      %tbody
-  #tracks
-    %table#track_list
-      %thead
-      %tbody
+    %li#search_button
+      Search
+      %span &nbsp;
+    %li#library_button
+      Library
+      %span &nbsp;
+    %li#filesystem_button
+      Filesystem
+      %span &nbsp;
+    %li#playlist_button Playlists
+  #navigation_content
+    #search_content{ :class => "hidden" }
+      %h2 The search pane
+    #library_content
+      #artists
+        %ul#artist_list
+          %li.artist All
+      #albums
+        %table#album_list
+          %thead
+          %tbody
+      #tracks
+        %table#track_list
+          %thead
+          %tbody
+    #filesystem_content{ :class => "hidden" }
+      %h2 filesystem
+    #playlist_content{ :class => "hidden" }
+      %h2 playlist
 #playlist
   %table#playlist_table
     %thead

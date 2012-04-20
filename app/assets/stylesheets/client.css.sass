@@ -16,18 +16,18 @@
   background-color: rgba(0, 0, 0, 0.3)
   color: rgba(254, 254, 254, 0.8)
 
-#controls, #navigation, #library, #playlist
+#controls, #navigation, #playlist
   float: none
   clear: both
 
 #controls
   height: 90px
-  margin: 10px 10px
+  margin: 10px 10px 15px 10px
   div
     +float(left)
   #buttons
-    width: 180px
-    #control
+    width: 195px
+    #media_control
       #music_controls
         +horizontal-list
         +no-bullets
@@ -38,7 +38,7 @@
           width: 32px
           height: 32px
           padding: 0
-          margin-left: 15px
+          margin-left: 20px
           background-color: $dark-grey
         li#previous
           @include media-sprite(white_rewind)
@@ -61,47 +61,66 @@
           @include media-sprite(white_fast_forward)
         li#next:active
           @include media-sprite(blue_fast_forward)
-      #volume_control
+      #track_seek
         +horizontal-list
         +no-bullets
         margin-top: 20px
-        li#volume_icon
+        li#seek_time
           width: 22px
-        li#volume_seek
-          width: 80%
+          margin-right: 10px
+          line-height: 21px
+        li#seek_bar
+          width: 155px
+          margin: 0
+          padding: 0
           input
             width: 100%
+            margin: 0
+            padding: 0
   #song_info
-    +column(19)
+    width: 675px
     +inset-box
     height: 89px
     padding: 7px
     margin-left: 15px
-    #album_art
-      img
-        margin-left: 3px
-        border: 1px $off-white solid
+    font-family: "comfortaa-bold"
     span
       display: block
-      font-size: 12pt
+      font-size: 14pt
     #track_info
-      +column(19)
+      #album_art
+        img
+          margin-left: 3px
+          border: 1px $off-white solid
+      span.light
+        font-family: "comfortaa-light"
+        margin-right: 10px
+      #artist_name, #album_name
+        float: none
+        display: block
+        span
+          +float(left)
+          display: inline
       #metadata
         padding: 5px 15px
-        width: 100%
         span#title
-          margin-bottom: 3px
-        span#album_artist
           margin-bottom: 5px
-      #track_seek
-        width: 90%
-        margin-left: 15px
-        input
-          width: 99%
+        #album_artist
+          #album_name
+            margin-bottom: 7px
+            height: 14pt
   #settings
     +float(right)
+    position: relative
+    padding: 5px 0
+    left: 3px
     ul
       +no-bullets
+      li.volume
+        padding-top: 30px
+        img
+          position: relative
+          left: 3px
 
 #navigation
   margin-top: 0
@@ -112,22 +131,37 @@
     display: block
     border-bottom: 1px #000 solid
     border-top: 1px #000 solid
-    background-color: rgba(220, 220, 220, 0.9)
     li
-      +column(6)
+      width: 25%
       padding: 0
       margin: 0
       text-align: center
-      border-right: 1px #000 solid
       color: rgb(0, 0, 0)
       height: 25px
       line-height: 25px
-    li.last
+      cursor: pointer
+      span
+        border-right: 1px #000 solid
+        float: right
+      background-color: rgba(220, 220, 220, 0.9)
+    li.current
+      background-color: $light-blue
+    li:hover
+      background-color: rgba(255, 255, 255, 0.9)
+    li:active
+      background-color: $light-blue
+    li#playlist_button
       border-right: 0
   div
     +float(left)
     height: 100%
     margin-top: 0
+  div.hidden
+    display: none
+
+  #navigation_content
+    height: 275px
+    width: 100%
 
   #artists
     +inset-box
@@ -187,7 +221,7 @@
         +selected
     td.track_number, th.track_number
       width: 25px
-    td.track_name
+    td.track_title
       padding: 3px 0
     .add_track
       position: relative
@@ -200,6 +234,7 @@
   border-top: 1px #000 solid
   height: 300px
   margin-bottom: 10px
+  width: 100%
   +inset-box
   table#playlist_table
     width: 100%
