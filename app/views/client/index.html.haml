@@ -1,24 +1,26 @@
 #controls
-  #image= image_tag('trance.jpg', :size => '75x75')
-  #song_info
-    %span#title Chubb Sub
-    %span#album_artist from Last Chance to Dance Trance (perhaps) by Medeski Martin Wood
-    #track_seek
-      %input{ :type => 'range', :min => '0', :max => '100' }
   #buttons
     #control
       %ul#music_controls
-        %li#previous= image_tag('previous-track.png')
-        %li#play= image_tag('play.png')
-        %li#stop= image_tag('stop.png')
-        %li#next= image_tag('next-track.png')
-        %li Outputs
-        %li= image_tag('settings.png')
-
+        %li#previous &nbsp;
+        %li#play &nbsp;
+        %li#stop &nbsp;
+        %li#next &nbsp;
       %ul#volume_control
         %li#volume_icon= image_tag('audio-volume-medium.png')
         %li#volume_seek
           %input{ :type => 'range', :min => '0', :max => '100' }
+  #song_info
+    #album_art= image_tag('trance.jpg', :size => '75x75')
+    #track_info
+      #metadata
+        %span#title Chubb Sub
+        %span#album_artist from Last Chance to Dance Trance (perhaps) by Medeski Martin Wood
+      #track_seek
+        %input{ :type => 'range', :min => '0', :max => '100' }
+  #settings
+    %ul
+      %li= image_tag('settings.png')
 #navigation
   %ul#nav_menu
     %li Search
