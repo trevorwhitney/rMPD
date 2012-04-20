@@ -29,27 +29,23 @@
     %li.last Playlists
   #artists
     %ul#artist_list
-      %lh.artist Artist
       %li.artist All
   #albums
     %table#album_list
       %thead
-        %th.album_name Album
-        %th.add_album Add
       %tbody
   #tracks
     %table#track_list
       %thead
-        %th.track_number #
-        %th Title
-        %th.add_track Add
+      %tbody
 #playlist
   %table#playlist_table
     %thead
-      %th Track
-      %th Title
-      %th Artist
-      %th Album
-      %th Duration
-      %th File
+      %tr.header
+        %th Track
+        %th Title
+        %th Artist
+        %th Album
+        %th Duration
+        %th File
     %tbody

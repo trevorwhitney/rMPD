@@ -2,12 +2,19 @@
 @include all-media-sprites
 
 @mixin selected
-  background-color: blue
-  color: white
+  background-color: $dark-blue
+  color: rgb(255, 255, 255)
 
 @mixin vertical-scroll
   overflow-y: scroll
   overflow-x: hidden
+
+@mixin inset-box
+  +box-sizing(border-box)
+  +box-shadow(rgba(255, 255, 255, 0.1) 0 1px 0, rgba(0, 0, 0, 0.8) 0 1px 7px 0 inset)
+  +border-radius(4px)
+  background-color: rgba(0, 0, 0, 0.3)
+  color: rgba(254, 254, 254, 0.8)
 
 #controls, #navigation, #library, #playlist
   float: none
@@ -19,7 +26,7 @@
   div
     +float(left)
   #buttons
-    width: 170px
+    width: 180px
     #control
       #music_controls
         +horizontal-list
@@ -31,7 +38,7 @@
           width: 32px
           height: 32px
           padding: 0
-          margin-left: 7px
+          margin-left: 15px
           background-color: $dark-grey
         li#previous
           @include media-sprite(white_rewind)
@@ -66,14 +73,10 @@
             width: 100%
   #song_info
     +column(19)
-    +box-sizing(border-box)
-    +box-shadow(rgba(255, 255, 255, 0.1) 0 1px 0, rgba(0, 0, 0, 0.8) 0 1px 7px 0 inset)
-    +border-radius(4px)
-    background-color: rgba(0, 0, 0, 0.3)
-    color: rgba(254, 254, 254, 0.8)
+    +inset-box
     height: 89px
     padding: 7px
-    margin-left: 7px
+    margin-left: 15px
     #album_art
       img
         margin-left: 3px
@@ -84,7 +87,7 @@
     #track_info
       +column(19)
       #metadata
-        padding: 5px 7px
+        padding: 5px 15px
         width: 100%
         span#title
           margin-bottom: 3px
@@ -92,7 +95,7 @@
           margin-bottom: 5px
       #track_seek
         width: 90%
-        margin-left: 7px
+        margin-left: 15px
         input
           width: 99%
   #settings
@@ -109,25 +112,34 @@
     display: block
     border-bottom: 1px #000 solid
     border-top: 1px #000 solid
+    background-color: rgba(220, 220, 220, 0.9)
     li
       +column(6)
       padding: 0
       margin: 0
       text-align: center
       border-right: 1px #000 solid
+      color: rgb(0, 0, 0)
+      height: 25px
+      line-height: 25px
     li.last
       border-right: 0
   div
     +float(left)
     height: 100%
     margin-top: 0
-  
+
   #artists
+    +inset-box
     width: 33%
     +vertical-scroll
     border-right: 1px #000 solid
     ul#artist_list
       +no-bullets
+      lh
+        @include background(linear-gradient(to bottom, rgb(242, 242, 242), rgb(220, 220, 220)))
+        color: rgb(0, 0, 0)
+        width: 100%
       li
         cursor: pointer
         padding: 3px 7px
@@ -135,6 +147,7 @@
         +selected
 
   #albums
+    +inset-box
     width: 33%
     +vertical-scroll
     table#album_list
@@ -159,6 +172,7 @@
       background: url('list-add.png') no-repeat top right
   #tracks
     width: 34%
+    +inset-box
     +vertical-scroll
     +last
     table#track_list
@@ -184,5 +198,16 @@
 
 #playlist
   border-top: 1px #000 solid
+  height: 300px
+  margin-bottom: 10px
+  +inset-box
   table#playlist_table
     width: 100%
+    tr.header
+      background-color: rgba(220, 220, 220, 0.9)
+      color: rgb(0, 0, 0)
+      height: 25px
+      line-height: 25px
+      +box-shadow(rgba(0, 0, 0, 0.8) 0 1px 7px 0)
+      th
+        padding: 3px 5px
