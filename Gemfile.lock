@@ -73,6 +73,8 @@ GEM
     method_source (0.7.1)
     mime-types (1.18)
     multi_json (1.2.0)
+    oily_png (1.0.2)
+      chunky_png (~> 1.2.1)
     polyglot (0.3.3)
     pry (0.9.8.4)
       coderay (~> 1.0.5)
@@ -136,6 +138,7 @@ DEPENDENCIES
   declarative_authorization
   haml-rails
   jquery-rails
+  oily_png
   pry
   rails (= 3.2.0)
   recaptcha

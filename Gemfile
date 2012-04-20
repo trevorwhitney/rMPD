@@ -8,6 +8,7 @@ gem 'declarative_authorization'
 gem 'will_paginate'
 gem 'recaptcha'
 gem 'pry'
+gem 'oily_png'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
