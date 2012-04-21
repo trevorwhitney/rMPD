@@ -23,6 +23,7 @@
 #controls
   height: 90px
   margin: 10px 10px 15px 10px
+  overflow: hidden
   div
     +float(left)
   #buttons
@@ -78,7 +79,6 @@
             margin: 0
             padding: 0
   #song_info
-    width: 675px
     +inset-box
     height: 89px
     padding: 7px
@@ -109,18 +109,22 @@
           #album_name
             margin-bottom: 7px
             height: 14pt
-  #settings
-    +float(right)
-    position: relative
-    padding: 5px 0
-    left: 3px
-    ul
+    ul#repeat_shuffle
       +no-bullets
-      li.volume
-        padding-top: 30px
-        img
-          position: relative
-          left: 3px
+      +float(right)
+      li
+        height: 16px
+        width: 16px
+        cursor: pointer
+      li.shuffle
+        @include media-sprite(black_shuffle)
+      li.shuffle.selected
+        @include media-sprite(blue_shuffle)
+      li.repeat
+        @include media-sprite(black_repeat)
+        margin-top: 10px
+      li.repeat.selected
+        @include media-sprite(blue_repeat)
 
 #navigation
   margin-top: 0
@@ -280,7 +284,7 @@
           overflow: hidden
           display: block
           width: 96%
-          margin-left: 3%
+          margin-left: 2%
         span
           border-right: 1px rgb(69, 69, 69) solid
           +float(right)
@@ -288,13 +292,17 @@
           height: $table-font-size + 4
     .track
       width: 2%
+      p
+        text-align: center
     .title
       width: 23%
     .artist
       width: 21%
     .album
       width: 22%
-    .duration
+    .time
       width: 7%
+      p
+        text-align: center
     .file
       width: 25%

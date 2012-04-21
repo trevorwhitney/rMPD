@@ -11,11 +11,11 @@ body
 .hidden
   display: none
 
+
 #container
   +container
   background-color: $dark-grey
   margin-top: 10px
-  border: 10px $dark-grey solid
   +box-shadow(rgba(255, 255, 255, 0.1) 0 1px 0)
   +border-radius(4px)
   +box-sizing(border-box)
@@ -23,7 +23,22 @@ body
 #nav
 
 #masthead
-  text-align: center
+  width: 100%
+  height: 20px
+  line-height: 20px
+  border-top: 7px $dark-grey solid
+  background-color: $dark-grey
+  span.title
+    +float(left)
+    padding-left: 10px
+  span.settings
+    +float(right)
+    padding-right: 7px
+
+#content
+  border-left: 10px $dark-grey solid
+  border-right: 10px $dark-grey solid
+  border-bottom: 10px $dark-grey solid
 
 form
   +blueprint-form

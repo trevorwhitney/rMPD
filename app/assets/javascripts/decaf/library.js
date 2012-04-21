@@ -77,6 +77,11 @@ $(document).ready(function(){
     liveDrag: true,
     headerOnly: true
   });
+
+  set_song_info_width();
+  $(window).resize(function() {
+    set_song_info_width();
+  });
 });
 
 function clear_menu() {
@@ -297,5 +302,11 @@ function add_track_to_playlist(track) {
   }
   $("table#playlist_table").append(
     Mustache.render(playlist_item_template, template_data));
+}
+
+function set_song_info_width() {
+  var parent_width = $('div#song_info').parent().width();
+  var song_info_width = parent_width - 230;
+  $('div#song_info').width(song_info_width);
 }
 
