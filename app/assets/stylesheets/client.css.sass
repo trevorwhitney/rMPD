@@ -162,6 +162,8 @@
   #navigation_content
     height: 275px
     width: 100%
+    & > div
+      width: 100%
 
   #artists
     +inset-box
@@ -170,6 +172,7 @@
     border-right: 1px #000 solid
     ul#artist_list
       +no-bullets
+      width: 100%
       lh
         @include background(linear-gradient(to bottom, rgb(242, 242, 242), rgb(220, 220, 220)))
         color: rgb(0, 0, 0)
@@ -186,7 +189,6 @@
     +vertical-scroll
     table#album_list
       +no-bullets
-      margin-left: 5px
       width: 100%
       tr
         width: 100%
@@ -197,7 +199,7 @@
     a.add_album 
       width: 16px
     td.album_name
-      padding: 3px 7px
+      padding: 3px 0
     .add_album
       width: 16px
       position: relative
@@ -231,10 +233,12 @@
       background: url('list-add.png') no-repeat top right
 
 #playlist
+  $table-font-size: 12pt
+  $table-header-font-size: 14pt
   border-top: 1px #000 solid
   height: 300px
   margin-bottom: 10px
-  width: 100%
+  +vertical-scroll
   +inset-box
   table#playlist_table
     width: 100%
@@ -245,4 +249,52 @@
       line-height: 25px
       +box-shadow(rgba(0, 0, 0, 0.8) 0 1px 7px 0)
       th
-        padding: 3px 5px
+        padding: 0 5px
+        text-align: center
+        div
+          width: 100%
+          height: $table-header-font-size + 2
+          span.heading
+            width: 98%
+            +float(left)
+            p
+              margin: 0 auto
+              padding: 0
+          span.border
+            width: 1%
+            border-right: 1px rgb(0, 0, 0) solid
+            +float(right)
+    td
+      height: $table-font-size
+      overflow: hidden
+      div
+        overflow: hidden
+        font-size: $table-font-size
+        line-height: $table-font-size
+        height: $table-font-size + 4
+        width: 100%
+        p
+          +float(left)
+          height: $table-font-size + 4
+          line-height: $table-font-size + 4
+          overflow: hidden
+          display: block
+          width: 96%
+          margin-left: 3%
+        span
+          border-right: 1px rgb(69, 69, 69) solid
+          +float(right)
+          width: 1%
+          height: $table-font-size + 4
+    .track
+      width: 2%
+    .title
+      width: 23%
+    .artist
+      width: 21%
+    .album
+      width: 22%
+    .duration
+      width: 7%
+    .file
+      width: 25%

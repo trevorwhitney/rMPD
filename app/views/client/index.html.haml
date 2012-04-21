@@ -1,7 +1,7 @@
 //Some script tags for mustache templates
 %script#album_template{ :type => "text/html" }
   %tr.album
-    %td.album_name {{album_name}}
+    %td.album_name {{ album_name }}
     %td.add_album{ :title => "add album to playlist" } &nbsp;
 %script#artist_template{ :type => "text/html" }
   %li.artist {{ artist_name }}
@@ -10,6 +10,32 @@
     %td.track_number {{ track_number }} 
     %td.track_title {{ track_title }}
     %td.add_track{ :title => "add track to playlist" } &nbsp;
+%script#playlist_item_template{ :type => "text/html" }
+  %tr.playlist_item
+    %td.track
+      %div
+        %p {{ track_number }}
+        %span &nbsp;
+    %td.title
+      %div
+        %p {{ title }}
+        %span &nbsp;
+    %td.artist
+      %div
+        %p {{ artist }}
+        %span &nbsp;
+    %td.album
+      %div
+        %p {{ album }}
+        %span &nbsp;
+    %td.time
+      %div
+        %p {{ time }}
+        %span &nbsp;
+    %td.file
+      %div
+        %p {{ file }}
+        %span &nbsp;
 
 #controls
   #buttons
@@ -52,32 +78,52 @@
       %span &nbsp;
     %li#playlist_button Playlists
   #navigation_content
-    #search_content{ :class => "hidden" }
+    #search_content.hidden
       %h2 The search pane
     #library_content
       #artists
         %ul#artist_list
-          %li.artist All
       #albums
         %table#album_list
-          %thead
-          %tbody
       #tracks
         %table#track_list
           %thead
           %tbody
-    #filesystem_content{ :class => "hidden" }
+    #filesystem_content.hidden
       %h2 filesystem
-    #playlist_content{ :class => "hidden" }
+    #playlist_content.hidden
       %h2 playlist
 #playlist
   %table#playlist_table
     %thead
       %tr.header
-        %th Track
-        %th Title
-        %th Artist
-        %th Album
-        %th Duration
-        %th File
+        %th.track
+          %div
+            %span.heading
+              %p #
+            %span.border &nbsp;
+        %th.title
+          %div
+            %span.heading
+              %p Title
+            %span.border &nbsp;
+        %th.artist
+          %div
+            %span.heading
+              %p Artist
+            %span.border &nbsp;
+        %th.album
+          %div
+            %span.heading
+              %p Album
+            %span.border &nbsp;
+        %th.time
+          %div
+            %span.heading
+              %p Time
+            %span.border &nbsp;
+        %th.file
+          %div
+            %span.heading
+              %p File
     %tbody

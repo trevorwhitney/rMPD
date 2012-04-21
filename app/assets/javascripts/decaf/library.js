@@ -5,6 +5,7 @@
 //for mor information, see the get_library() function, as well
 //as the library.json file
 var library = {};
+var track_list = {};
 
 
 //wait for the page to load, and then set everything up here
@@ -25,8 +26,6 @@ $(document).ready(function(){
       //laod the artist and album lists defualting to selecting "All" artists
       //before showing the library
       load_artists(library);
-      $('ul#artist_list li:first').addClass('selected');
-      load_albums("All");
       $('div#loading').hide();
       $('div#container').show();
     }
@@ -42,7 +41,7 @@ $(document).ready(function(){
     load_albums(artist);
   });
 
-  //ass listeners to navigation
+  //add listeners to navigation
   $('li#search_button').click(function() {
     if (!$(this).hasClass('current')) {
       clear_menu();
@@ -73,6 +72,11 @@ $(document).ready(function(){
   })
 
   $('li#library_button').addClass('current');
+
+  $('table#playlist_table').colResizable({
+    liveDrag: true,
+    headerOnly: true
+  });
 });
 
 function clear_menu() {
@@ -98,7 +102,6 @@ function get_library(data) {
       });
       album_list[album.name] = album.songs;
     });
-    //console.debug(new_artist);
     library[artist.name] = album_list;
   });
 }
@@ -135,17 +138,30 @@ function add_album_listeners() {
     clear_selected('albums');
     clear_tracks();
     $(this).parent().toggleClass('selected');
-    album = $(this).text();
-    artist = $('li.artist.selected').text();
-    load_tracks(artist, album);
+    var album = $(this).text();
+    var artist = $('li.artist.selected').text();
+    track_list = load_tracks(artist, album);
     add_track_listeners();
+  });
+
+  $('td.add_album').click(function () {
+      var album = $(this).siblings('.album_name').text();
+      var artist = $('li.artist.selected').text();
+      console.log("Artist: " + artist + ", Album: " + album);
+      add_album_to_playlist(artist, album, 
+        $(this).parent().hasClass('selected'));
   });
 }
 
 function add_track_listeners() {
-  $('td.track').click(function() {
+  $('tr.track').click(function() {
     clear_selected('tracks');
-    $(this).parent().toggleClass('selected');
+    $(this).toggleClass('selected');
+  });
+
+  $('td.add_track').click(function () {
+    track = $(this).siblings('.track_title').text();
+    add_track_to_playlist(track_list[track]);
   });
 }
 
@@ -154,7 +170,9 @@ function load_artists(_library) {
   var artists = [];
   var artist_template = $('#artist_template').html();
   $.each(_library, function(name, albums) {
-    artists.push(name);
+    if (name.length > 0 ) {
+      artists.push(name);
+    }
   });
   artists.sort();
   $.each(artists, function(i, artist) {
@@ -170,26 +188,13 @@ function load_artists(_library) {
 //if the artist string is "All", it will add all albums to the list
 function load_albums(artist_string) {
   var _albums = [];
-  var album_template = $('#album_template').html();
-  if (artist_string == "All") {
-    $.each(library, function(name, albums) {
-      $.each(albums, function(name, songs) {
-        if ($.inArray(name, _albums) == -1) {
-          if (name.length > 0) {
-            _albums.push(name);
-          }
-        }
-      });
-    });
-  }
-  else {
-    $albums = library[artist_string];
-    $.each($albums, function(name, songs) {
-      if ($.inArray(name, _albums) == -1) {
-        _albums.push(name);
-      }
-    });
-  }
+  var album_template = $('script#album_template').html();
+  $albums = library[artist_string];
+  $.each($albums, function(name, songs) {
+    if ($.inArray(name, _albums) == -1) {
+      _albums.push(name);
+    }
+  });
   _albums.sort();
   $.each(_albums, function(i, album) {
     var template_data = {
@@ -208,46 +213,23 @@ function load_tracks(artist, album) {
   var _tracks = {};
   var track_nums = [];
   var track_template = $('#track_template').html();
+  var track_list = {};
 
-  //if the artist is "All", need to do things the long way
-  if (artist == "All") {
-    $.each(library, function(artist, albums) {
-      $.each(albums, function(_album, songs) {
-        if (_album == album) {
-          $.each(songs, function(i, song) {
-            
-            //conditional to handle the case of songs without a track number
-            if (song.track != null) {
-              tracks[song.track] = song.title;
-              track_nums.push(parseInt(song.track));
-            }
-            else {
-              tracks["nil"] = [];
-              tracks["nil"].push(song.title);
-            }
-          });
-        }
-      });
-    });
-  }
+  tracks["nil"] = []; //in case of null or 0 for track number
 
-  //a specific artist was provided, excellent! We can skip a few loops and
-  //dig straight down to the album
-  else {
-    var songs = library[artist][album];
-    $.each(songs, function(i, song) {
-      
-      //again, conditional for blank track case
-      if (song.track != null) {
-        tracks[song.track] = song.title;
-        track_nums.push(parseInt(song.track));
-      }
-      else {
-        tracks["nil"] = [];
-        tracks["nil"].push(song.title);
-      }
-    });
-  }
+  var songs = library[artist][album];
+  $.each(songs, function(i, song) {
+    
+    //again, conditional for blank or 0 track case
+    if (song.track != null && parseInt(song.track) > 0) {
+      tracks[song.track] = song.title;
+      track_nums.push(parseInt(song.track));
+    }
+    else {
+      tracks["nil"].push(song.title);
+    }
+    track_list[song.title] = song;
+  });
 
   //put the tracks in order based on track number
   track_nums.sort();
@@ -269,14 +251,51 @@ function load_tracks(artist, album) {
 
   //print all the other tracks with track numbers, now nice and sorted
   $.each(_tracks, function(track, title) {
-    if(track != 0) {
-      var template_data = {
-        track_number: track,
-        track_title: title
-      }
-      $("table#track_list").append(
-        Mustache.render(track_template, template_data));
+    var template_data = {
+      track_number: track,
+      track_title: title
     }
+    $("table#track_list").append(
+      Mustache.render(track_template, template_data));
   });
+
+  return track_list;
+}
+
+function add_album_to_playlist(artist, album, selected) {
+  var tracks = {};
+  var _tracks = {};
+  var track_nums = [];
+  var tracks_to_add = [];
+
+
+  //if album is currently selected, the track list is already loaded
+  if (selected) {
+    tracks_to_add = track_list;
+  }
+  else {
+    var tracks = library[artist][album];
+    $.each(tracks, function(i, track) {
+      tracks_to_add.push(track);
+    });
+  }
+  $.each(tracks_to_add, function(i, track) {
+    add_track_to_playlist(track);
+  });
+}
+
+function add_track_to_playlist(track) {
+  title = track.title;
+  var playlist_item_template = $('script#playlist_item_template').html();
+  var template_data = {
+    track_number: track.track,
+    title: track.title,
+    artist: track.artist,
+    album: track.album,
+    time: track.time,
+    file: track.file
+  }
+  $("table#playlist_table").append(
+    Mustache.render(playlist_item_template, template_data));
 }
 
