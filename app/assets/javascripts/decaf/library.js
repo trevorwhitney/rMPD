@@ -155,7 +155,6 @@ function add_album_listeners() {
   $('td.add_album').click(function () {
       var album = $(this).siblings('.album_name').text();
       var artist = $('li.artist.selected').text();
-      console.log("Artist: " + artist + ", Album: " + album);
       add_album_to_playlist(artist, album, 
         $(this).parent().hasClass('selected'));
   });
@@ -321,6 +320,25 @@ function set_song_info_width() {
 function set_playlist_width() {
   var playlist_width = $('table#playlist_table').width();
   $('table#playlist_table_header').width(playlist_width);
+  adjust_playlist_header_widths();
+}
+
+var adjust_playlist_header_widths = function() {
+  var row = $('table#playlist_table').find('tr').first();
+  var track, title, artist, album, time, file;
+  track = row.children('.track').width();
+  title = row.children('.title').width();
+  artist = row.children('.artist').width();
+  album = row.children('.album').width();
+  time = row.children('.time').width();
+  file = row.children('.file').width();
+
+  $("table#playlist_table_header .track").width(track);
+  $("table#playlist_table_header .title").width(title);
+  $("table#playlist_table_header .artist").width(artist);
+  $("table#playlist_table_header .album").width(album);
+  $("table#playlist_table_header .time").width(time);
+  $("table#playlist_table_header .file").width(file);
 }
 
 var adjust_playlist_widths = function() {
