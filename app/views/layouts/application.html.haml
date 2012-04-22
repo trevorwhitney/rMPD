@@ -1,20 +1,17 @@
 !!! 5
 %html
-%head
-  %title rMPD
-  = stylesheet_link_tag    "application", :media => "all"
-  = javascript_include_tag "application"
-  = javascript_include_tag "https://raw.github.com/janl/mustache.js/master/mustache.js"
-  = csrf_meta_tags
-
-%body.bp
-  #loading
-    %h1 Loading...
-  #container{ :class => 'hidden' }
-    #masthead
-      %span.title MPDremote
-      %span.settings= image_tag('settings.png')
-    #nav
-    = render "flash/messages"
-    #content
-      = yield
+  %head
+    %title rMPD
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    #loading
+      %h1 Loading...
+    #container{ :class => 'hidden' }
+      #masthead
+        %span.title MPDremote
+        %span.settings= image_tag('settings.png')
+      = render "flash/messages"
+      #content
+        = yield
