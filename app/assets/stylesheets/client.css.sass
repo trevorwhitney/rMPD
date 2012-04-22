@@ -28,6 +28,7 @@
     +float(left)
   #buttons
     width: 195px
+    height: 90px
     #media_control
       #music_controls
         +horizontal-list
@@ -80,7 +81,7 @@
             padding: 0
   #song_info
     +inset-box
-    height: 89px
+    height: 90px
     padding: 7px
     margin-left: 15px
     font-family: "comfortaa-bold"
@@ -128,7 +129,6 @@
 
 #navigation
   margin-top: 0
-  height: 300px
   ul#nav_menu
     +horizontal-list
     +no-bullets
@@ -164,8 +164,8 @@
     display: none
 
   #navigation_content
-    height: 275px
     width: 100%
+    background-color: $dark-grey
     & > div
       width: 100%
 
@@ -271,7 +271,6 @@ $table-header-font-size: 14pt
 #playlist_header
   background-color: rgb(220, 220, 220)
 #playlist
-  height: 300px
   +vertical-scroll
   margin-bottom: 10px
   +inset-box
