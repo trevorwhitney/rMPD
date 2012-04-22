@@ -62,14 +62,17 @@ $(document).ready(function(){
       $('#navigation_content #filesystem_content').show();
       $(this).addClass('current');
     }
-  })
-    $('li#playlist_button').click(function() {
+  });
+  $('li#playlist_button').click(function() {
     if (!$(this).hasClass('current')) {
       clear_menu();
       $('#navigation_content #playlist_content').show();
       $(this).addClass('current');
     }
   })
+
+  //a few more listeners
+  $('#clear_playlist').click(clear_playlist);
 
   $('li#library_button').addClass('current');
 
@@ -140,6 +143,10 @@ function clear_tracks() {
   $('tr.track').remove();
 }
 
+var clear_playlist = function() {
+  $('tr.playlist_item').remove();
+}
+
 //this will add click listeners to each element in the album_list
 //this is abstracted to it's own function since the listeners have to be
 //re-initialized after every time album_list is cleared
@@ -152,6 +159,15 @@ function add_album_listeners() {
     var artist = $('li.artist.selected').text();
     track_list = load_tracks(artist, album);
     add_track_listeners();
+  });
+
+  $('td.album_name').dblclick(function(e) {
+    e.preventDefault();
+    clear_selection();
+    var album = $(e.currentTarget).siblings('.album_name').text();
+    var artist = $('li.artist.selected').text();
+    add_album_to_playlist(artist, album, 
+      $(e.currentTarget).parent().hasClass('selected'));
   });
 
   $('td.add_album').click(function () {
@@ -168,8 +184,15 @@ function add_track_listeners() {
     $(this).toggleClass('selected');
   });
 
-  $('td.add_track').click(function () {
-    track = $(this).siblings('.track_title').text();
+  $('tr.track').dblclick(function(e) {
+    e.preventDefault();
+    clear_selection();
+    track = $(e.currentTarget).children('.track_title').text();
+    add_track_to_playlist(track_list[track]);
+  });
+
+  $('td.add_track').click(function(e) {
+    track = $(e.currentTarget).siblings('.track_title').text();
     add_track_to_playlist(track_list[track]);
   });
 }
@@ -366,11 +389,21 @@ var adjust_playlist_widths = function() {
 
 function set_height() {
   window_height = $(window).height();
-  console.log(window_height);
   height = window_height - 20;
   $('#container').height(height);
-  inner_height = (height - 155 ) / 2;
+  inner_height = (height - 170 ) / 2;
   $('#navigation').height(inner_height)
   $('#navigation_content').height(inner_height - 27);
   $('#playlist').height(inner_height - 26);
+}
+
+function clear_selection() {
+  var sel ;
+  if(document.selection && document.selection.empty){
+    document.selection.empty() ;
+  } else if(window.getSelection) {
+    sel=window.getSelection();
+    if(sel && sel.removeAllRanges)
+      sel.removeAllRanges() ;
+  }
 }
