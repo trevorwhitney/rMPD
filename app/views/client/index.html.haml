@@ -64,7 +64,7 @@
     %ul#repeat_shuffle
       %li.shuffle &nbsp;
       %li.repeat &nbsp;
-      
+
 #navigation
   %ul#nav_menu
     %li#search_button
@@ -93,8 +93,8 @@
       %h2 filesystem
     #playlist_content.hidden
       %h2 playlist
-#playlist
-  %table#playlist_table
+#playlist_header
+  %table#playlist_table_header
     %thead
       %tr.header
         %th.track
@@ -126,4 +126,5 @@
           %div
             %span.heading
               %p File
-    %tbody
+#playlist
+  %table#playlist_table

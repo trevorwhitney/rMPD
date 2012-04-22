@@ -73,14 +73,17 @@ $(document).ready(function(){
 
   $('li#library_button').addClass('current');
 
-  $('table#playlist_table').colResizable({
-    liveDrag: true,
-    headerOnly: true
-  });
-
   set_song_info_width();
+  set_playlist_width();
   $(window).resize(function() {
     set_song_info_width();
+    set_playlist_width();
+  });
+
+  $('table#playlist_table_header').colResizable({
+    liveDrag: false,
+    headerOnly: true,
+    onResize: adjust_playlist_widths
   });
 });
 
@@ -302,6 +305,11 @@ function add_track_to_playlist(track) {
   }
   $("table#playlist_table").append(
     Mustache.render(playlist_item_template, template_data));
+  $('table#playlist_table').colResizable({
+    disable: true
+  });
+
+  adjust_playlist_widths();
 }
 
 function set_song_info_width() {
@@ -310,3 +318,28 @@ function set_song_info_width() {
   $('div#song_info').width(song_info_width);
 }
 
+function set_playlist_width() {
+  var playlist_width = $('table#playlist_table').width();
+  $('table#playlist_table_header').width(playlist_width);
+}
+
+var adjust_playlist_widths = function() {
+  var row = $('table#playlist_table_header').find('tr').first();
+  var track = $(row).children('.track').width();
+  var title = $(row).children('.title').width();
+  var artist = $(row).children('.artist').width();
+  var album = $(row).children('.album').width();
+  var time = $(row).children('.time').width();
+  var file = $(row).children('.file').width();
+
+  var rows = $("table#playlist_table").children('tr');
+  for (var i = 0; i < rows.length; i ++) {
+    row = rows[i];
+    $(row).children('.track').width(track);
+    $(row).children('.title').width(title);
+    $(row).children('.artist').width(artist);
+    $(row).children('.album').width(album);
+    $(row).children('.time').width(time);
+    $(row).children('.file').width(file);
+  }
+}

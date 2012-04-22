@@ -181,6 +181,9 @@
         @include background(linear-gradient(to bottom, rgb(242, 242, 242), rgb(220, 220, 220)))
         color: rgb(0, 0, 0)
         width: 100%
+      li:nth-child(even)
+        background-color: rgba(65, 65, 65, 0.3)
+        color: darken($off-white, 10%)
       li
         cursor: pointer
         padding: 3px 7px
@@ -194,6 +197,9 @@
     table#album_list
       +no-bullets
       width: 100%
+      tr:nth-child(even)
+        background-color: rgba(65, 65, 65, 0.3)
+        color: darken($off-white, 10%)
       tr
         width: 100%
       tr.album
@@ -204,6 +210,7 @@
       width: 16px
     td.album_name
       padding: 3px 0
+      padding-left: 5px
     .add_album
       width: 16px
       position: relative
@@ -219,6 +226,9 @@
       +no-bullets
       margin-left: 5px
       width: 100%
+      tr:nth-child(even)
+        background-color: rgba(65, 65, 65, 0.3)
+        color: darken($off-white, 10%)
       tr
         width: 100%
       tr.track
@@ -236,60 +246,12 @@
     td.add_track
       background: url('list-add.png') no-repeat top right
 
-#playlist
-  $table-font-size: 12pt
-  $table-header-font-size: 14pt
+$table-font-size: 12pt
+$table-header-font-size: 14pt
+
+#playlist_header, #playlist
   border-top: 1px #000 solid
-  height: 300px
-  margin-bottom: 10px
-  +vertical-scroll
-  +inset-box
-  table#playlist_table
-    width: 100%
-    tr.header
-      background-color: rgba(220, 220, 220, 0.9)
-      color: rgb(0, 0, 0)
-      height: 25px
-      line-height: 25px
-      +box-shadow(rgba(0, 0, 0, 0.8) 0 1px 7px 0)
-      th
-        padding: 0 5px
-        text-align: center
-        div
-          width: 100%
-          height: $table-header-font-size + 2
-          span.heading
-            width: 98%
-            +float(left)
-            p
-              margin: 0 auto
-              padding: 0
-          span.border
-            width: 1%
-            border-right: 1px rgb(0, 0, 0) solid
-            +float(right)
-    td
-      height: $table-font-size
-      overflow: hidden
-      div
-        overflow: hidden
-        font-size: $table-font-size
-        line-height: $table-font-size
-        height: $table-font-size + 4
-        width: 100%
-        p
-          +float(left)
-          height: $table-font-size + 4
-          line-height: $table-font-size + 4
-          overflow: hidden
-          display: block
-          width: 96%
-          margin-left: 2%
-        span
-          border-right: 1px rgb(69, 69, 69) solid
-          +float(right)
-          width: 1%
-          height: $table-font-size + 4
+  table tr
     .track
       width: 2%
       p
@@ -306,3 +268,63 @@
         text-align: center
     .file
       width: 25%
+#playlist_header
+  background-color: rgb(220, 220, 220)
+#playlist
+  height: 300px
+  +vertical-scroll
+  margin-bottom: 10px
+  +inset-box
+table#playlist_table_header
+  width: 100%
+  tr.header
+    background-color: rgba(220, 220, 220, 0.9)
+    color: rgb(0, 0, 0)
+    height: 25px
+    line-height: 25px
+    +box-shadow(rgba(0, 0, 0, 0.8) 0 1px 7px 0)
+    th
+      text-align: center
+      div
+        width: 100%
+        height: $table-header-font-size + 2
+        span.heading
+          width: 98%
+          +float(left)
+          p
+            margin: 0 auto
+            padding: 0
+        span.border
+          width: 1%
+          border-right: 1px rgb(0, 0, 0) solid
+          +float(right)
+
+table#playlist_table
+  width: 100%
+  tr
+    border-bottom: 1px rgb(69, 69, 69) solid
+  tr:nth-child(even)
+    background-color: rgba(65, 65, 65, 0.3)
+    color: darken($off-white, 10%)
+  td
+    height: $table-font-size
+    overflow: hidden
+    div
+      overflow: hidden
+      font-size: $table-font-size
+      line-height: $table-font-size
+      height: $table-font-size + 4
+      width: 100%
+      p
+        +float(left)
+        height: $table-font-size + 4
+        line-height: $table-font-size + 4
+        overflow: hidden
+        display: block
+        width: 96%
+        margin-left: 2%
+      span
+        border-right: 1px rgb(69, 69, 69) solid
+        +float(right)
+        width: 1%
+        height: $table-font-size + 4
