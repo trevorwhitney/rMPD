@@ -73,13 +73,13 @@ $(document).ready(function(){
 
   $('li#library_button').addClass('current');
 
+  set_height();
   set_song_info_width();
   set_playlist_width();
-  set_height();
   $(window).resize(function() {
+    set_height();
     set_song_info_width();
     set_playlist_width();
-    set_height();
   });
 
   $('table#playlist_table_header').colResizable({
@@ -369,7 +369,8 @@ function set_height() {
   console.log(window_height);
   height = window_height - 20;
   $('#container').height(height);
-  inner_height = (height - 227) / 2;
-  $('#navigation_content > div').height(inner_height);
-  $('#playlist').height(inner_height);
+  inner_height = (height - 155 ) / 2;
+  $('#navigation').height(inner_height)
+  $('#navigation_content').height(inner_height - 27);
+  $('#playlist').height(inner_height - 26);
 }
