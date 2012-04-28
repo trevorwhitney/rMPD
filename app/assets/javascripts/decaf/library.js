@@ -6,6 +6,7 @@
 //as the library.json file
 var library = {};
 var track_list = {};
+var mpd_server = "http://rmpd-server.local/";
 
 
 //wait for the page to load, and then set everything up here
