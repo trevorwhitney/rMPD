@@ -6,7 +6,7 @@
 //as the library.json file
 var library = {};
 var track_list = {};
-var mpd_server = "http://rmpd-server.local/";
+var mpd_server = "http://rmpd-server.local:9292/";
 
 
 //wait for the page to load, and then set everything up here
@@ -29,6 +29,18 @@ $(document).ready(function(){
       load_artists(library);
       $('div#loading').hide();
       $('div#container').show();
+    }
+  });
+
+  //load the current playlist
+  $.ajax({
+    url: mpd_server + 'playlist',
+    aync: true,
+    success: function(data) {
+      $.each(data, function(i, track) {
+        populate_local_playlist(track);
+      });
+      adjust_playlist_widths;
     }
   });
 
@@ -145,7 +157,13 @@ function clear_tracks() {
 }
 
 var clear_playlist = function() {
-  $('tr.playlist_item').remove();
+  $.ajax({
+    url: mpd_server + 'clear',
+    async: true,
+    success: function(data) {
+      $('tr.playlist_item').remove();
+    }
+  });
 }
 
 //this will add click listeners to each element in the album_list
@@ -318,7 +336,19 @@ function add_album_to_playlist(artist, album, selected) {
 }
 
 function add_track_to_playlist(track) {
-  title = track.title;
+  $.ajax({
+    url: mpd_server + "add",
+    aync: true,
+    data: 'filename=' + track.file,
+    type: "POST",
+    success: function(data) {
+      populate_local_playlist(track);
+      adjust_playlist_widths();
+    }
+  });
+}
+
+function populate_local_playlist(track) {
   var playlist_item_template = $('script#playlist_item_template').html();
   var template_data = {
     track_number: track.track,
@@ -333,8 +363,6 @@ function add_track_to_playlist(track) {
   $('table#playlist_table').colResizable({
     disable: true
   });
-
-  adjust_playlist_widths();
 }
 
 function set_song_info_width() {
