@@ -39,7 +39,7 @@ $(document).ready(function(){
     dataType: 'json',
     success: function(data) {
       $.each(data, function(i, track) {
-        playlist.push(track.id);
+        playlist.push(track.title);
         populate_local_playlist(track, i);
       });
       adjust_playlist_widths;
@@ -51,7 +51,7 @@ $(document).ready(function(){
   $.ajax({
     url: mpd_server + 'current_song',
     dataType: 'json',
-    success: print_current_song
+    success: function(data) { update_current_song(data) }
   });
 
   //add listeners to artists
@@ -154,6 +154,9 @@ function clear_selected(string) {
   else if (string == "tracks") {
     $('tr.track').removeClass('selected');
   }
+  else if (string == "playlist") {
+    $('tr.playlist_item').removeClass('current');
+  }
 }
 
 //this removes all entries from the album_list
@@ -172,6 +175,7 @@ var clear_playlist = function() {
     async: true,
     success: function(data) {
       $('tr.playlist_item').remove();
+      playlist = [];
     }
   });
 }
@@ -350,25 +354,28 @@ function add_track_to_playlist(track) {
     url: mpd_server + "add",
     aync: true,
     data: 'filename=' + track.file,
+    dataType: 'json',
     type: "POST",
     success: function(data) {
       var position = playlist.length;
-      populate_local_playlist(track, position);
+      playlist[position] = data.title;
+      populate_local_playlist(data, position);
       adjust_playlist_widths();
+      add_playlist_listeners();
     }
   });
-  add_playlist_listeners();
 }
 
 function populate_local_playlist(track, position) {
-  console.log(track);
   var playlist_item_template = $('script#playlist_item_template').html();
+  var minutes = Math.floor(parseInt(track.time) / 60);
+  var seconds = parseInt(track.time) - (minutes * 60);
   var template_data = {
     track_number: track.track,
     title: track.title,
     artist: track.artist,
     album: track.album,
-    time: track.time,
+    time: minutes.toString() + ":" + pad2(seconds),
     file: track.file,
     position: position
   }
@@ -379,7 +386,7 @@ function populate_local_playlist(track, position) {
   });
 
   //append to playlist array, need to know id
-  playlist[position] = track.id;
+  playlist[position] = track.title;
 }
 
 function set_song_info_width() {
@@ -454,27 +461,40 @@ function clear_selection() {
   }
 }
 
-var print_current_song = function(data) {
-  console.log(data);
+function update_current_song(data) {
   $('span#title').text(data.title);
   $('div#album_name span.album_name').text(data.album);
   $('div#artist_name span.artist_name').text(data.artist);
+
+  clear_selected("playlist");
+  var position = playlist.indexOf(data.title);
+  $.each($('#playlist td.position:contains('+position+')'), 
+    function(i, element) {
+      regex = new RegExp("^"+position+"$");
+      if (regex.test($(element).text())) {
+        $(element).parent('tr').addClass('current');
+      }
+    }
+  );
 }
 
 function add_playlist_listeners() {
-  console.log('adding playlist listeners');
   $('tr.playlist_item').dblclick(function(e) {
     e.preventDefault();
+    clear_selection();
     var position = parseInt($(e.currentTarget).children('.position').text());
-    console.log(position);
     $.ajax({
       url: mpd_server + 'play',
       type: 'POST',
       data: 'position=' + position,
       dataType: 'json',
       success: function(data) {
-        console.log(data);
+        update_current_song(data);
       }
     });
   });
+}
+
+function pad2(number) {
+  return (number < 10 ? '0' : '') + number.toString();
 }

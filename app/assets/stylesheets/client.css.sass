@@ -307,6 +307,7 @@ table#playlist_table
   width: 100%
   tr
     border-bottom: 1px rgb(69, 69, 69) solid
+    cursor: pointer
     td
       height: $table-font-size
       overflow: hidden
@@ -334,6 +335,8 @@ table#playlist_table
     color: darken($off-white, 10%)
   tr.blank
     border-bottom: 0
+  tr.current
+    +selected
 #clear_playlist
   margin-bottom: 3px
   cursor: pointer

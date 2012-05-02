@@ -12,6 +12,7 @@
     %td.add_track{ :title => "add track to playlist" } &nbsp;
 %script#playlist_item_template{ :type => "text/html" }
   %tr.playlist_item
+    %td.position {{ position }}
     %td.track
       %div
         %p {{ track_number }}
@@ -36,7 +37,6 @@
       %div
         %p {{ file }}
         %span &nbsp;
-    %td.position {{ position }}
 
 #controls
   #buttons
@@ -54,14 +54,14 @@
     #track_info
       #album_art= image_tag('trance.jpg', :size => '75x75')
       #metadata
-        %span#title Chubb Sub
+        %span#title &nbsp;
         #album_artist 
           #album_name
             %span.light from 
-            %span.album_name Last Chance to Dance Trance (perhaps)
+            %span.album_name &nbsp;
           #artist_name
             %span.light by
-            %span.artist_name Medeski Martin Wood
+            %span.artist_name &nbsp;
     %ul#repeat_shuffle
       %li.shuffle &nbsp;
       %li.repeat &nbsp;
