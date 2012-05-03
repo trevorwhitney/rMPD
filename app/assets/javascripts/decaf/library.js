@@ -6,7 +6,7 @@
 //as the library.json file
 var library = {};
 var track_list = {};
-var mpd_server = "http://rmpd-server.local:4567/";
+var mpd_server = "http://rmpd-server.local:3000/";
 var playlist = [];
 
 function clear_menu() {
@@ -355,7 +355,8 @@ function clear_selection() {
   }
 }
 
-//FIXME: What if it's the last song?
+//FIXME: What if it's the last song? What if I just added a song, or there's
+//no songs currently?
 function update_current_song(data) {
   $('span#title').text(data.title);
   $('div#album_name span.album_name').text(data.album);

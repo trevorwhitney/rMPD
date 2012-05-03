@@ -1,4 +1,4 @@
-var mpd_server = "http://rmpd-server.local:4567/";
+var mpd_server = "http://rmpd-server.local:3000/";
 
 var pause = function() {
   $.ajax({

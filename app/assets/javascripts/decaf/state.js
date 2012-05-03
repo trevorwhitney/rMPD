@@ -1,8 +1,7 @@
-var mpd_server = "http://rmpd-server.local:4567/";
+var mpd_server = "http://rmpd-server.local:3000/";
 
 var state_es = new EventSource(mpd_server + "state");
-state_es.onmessage = function(e) { 
-  console.log(e.data);
+state_es.onmessage = function(e) {
   switch(e.data) {
     case "play":
       $('li#play').addClass('pause');
