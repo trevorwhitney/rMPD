@@ -6,114 +6,8 @@
 //as the library.json file
 var library = {};
 var track_list = {};
-var mpd_server = "http://rmpd-server.local:3000/";
+var mpd_server = "http://rmpd-server.local:4567/";
 var playlist = [];
-
-//wait for the page to load, and then set everything up here
-$(document).ready(function(){
-  //get the library, which is contained in a cached json file
-  //the complete parameter handles the "loading" screen
-  $.ajax({
-    url:"/library.json",
-    async: false,
-    beforeSend: function(xhr) {
-      $('div#container').hide();
-      $('div#loading').show();
-    },
-    success: function(data) {
-      get_library(data);
-    },
-    complete: function() {
-      //laod the artist and album lists defualting to selecting "All" artists
-      //before showing the library
-      load_artists(library);
-      $('div#loading').hide();
-      $('div#container').show();
-    }
-  });
-
-  //load the current playlist
-  $.ajax({
-    url: mpd_server + 'playlist',
-    aync: true,
-    dataType: 'json',
-    success: function(data) {
-      $.each(data, function(i, track) {
-        playlist.push(track.title);
-        populate_local_playlist(track, i);
-      });
-      adjust_playlist_widths;
-      add_playlist_listeners();
-    }
-  });
-
-  //load the current song
-  $.ajax({
-    url: mpd_server + 'current_song',
-    dataType: 'json',
-    success: function(data) { update_current_song(data) }
-  });
-
-  //add listeners to artists
-  $('li.artist').click(function() {
-    clear_selected('artists');
-    clear_albums();
-    clear_tracks();
-    $(this).toggleClass('selected');
-    artist = $(this).text();
-    load_albums(artist);
-  });
-
-  //add listeners to navigation
-  $('li#search_button').click(function() {
-    if (!$(this).hasClass('current')) {
-      clear_menu();
-      $('#navigation_content #search_content').show();
-      $(this).addClass('current');
-    }
-  });
-  $('li#library_button').click(function() {
-    if (!$(this).hasClass('current')) {
-      clear_menu();
-      $('#navigation_content #library_content').show();
-      $(this).addClass('current');
-    }
-  });
-  $('li#filesystem_button').click(function() {
-    if (!$(this).hasClass('current')) {
-      clear_menu();
-      $('#navigation_content #filesystem_content').show();
-      $(this).addClass('current');
-    }
-  });
-  $('li#playlist_button').click(function() {
-    if (!$(this).hasClass('current')) {
-      clear_menu();
-      $('#navigation_content #playlist_content').show();
-      $(this).addClass('current');
-    }
-  })
-
-  //a few more listeners
-  $('#clear_playlist').click(clear_playlist);
-
-  $('li#library_button').addClass('current');
-
-  set_height();
-  set_song_info_width();
-  set_playlist_width();
-  $(window).resize(function() {
-    set_height();
-    set_song_info_width();
-    set_playlist_width();
-  });
-
-  $('table#playlist_table_header').colResizable({
-    liveDrag: false,
-    headerOnly: true,
-    onResize: adjust_playlist_widths
-  });
-});
 
 function clear_menu() {
   $('ul#nav_menu li.current').removeClass('current');
@@ -461,6 +355,7 @@ function clear_selection() {
   }
 }
 
+//FIXME: What if it's the last song?
 function update_current_song(data) {
   $('span#title').text(data.title);
   $('div#album_name span.album_name').text(data.album);
@@ -489,6 +384,7 @@ function add_playlist_listeners() {
       data: 'position=' + position,
       dataType: 'json',
       success: function(data) {
+        $('li#play').addClass('pause');
         update_current_song(data);
       }
     });

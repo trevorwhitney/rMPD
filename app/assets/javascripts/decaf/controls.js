@@ -1,20 +1,4 @@
-var mpd_server = "http://rmpd-server.local:3000/";
-
-$(document).ready(function() {
-  add_control_listeners();
-  $.ajax({
-    url: mpd_server + 'state',
-    async: true,
-    success: function(data) {
-      if (data == "pause") {
-        $('li#play').removeClass('pause');
-      }
-      else if (data == "play") {
-        $('li#play').addClass('pause');
-      }
-    }
-  });
-});
+var mpd_server = "http://rmpd-server.local:4567/";
 
 var pause = function() {
   $.ajax({
