@@ -90,6 +90,7 @@
       font-size: 14pt
     #track_info
       #album_art
+        cursor: pointer
         img
           margin-left: 3px
           border: 1px $off-white solid
@@ -342,4 +343,33 @@ table#playlist_table
   cursor: pointer
 #clear_playlist:active
   color: $blue
+
+//Album Art Popup Styles
+#popup_content
+  display: none
+  position: fixed
+  _position: absolute
+  height: 600px
+  width: 600px
+  background: $dark-grey
+  border: 2px solid $off-white
+  z-index: 2
+  padding: 5px
+  font-size: 13px
+  h1
+    text-align: left
+    color: #6FA5FD
+    font-size: 22px
+    font-weight: 700
+    border-bottom: 1px dotted #D3D3D3
+    padding-bottom: 2px
+    margin-bottom: 20px
+#popup_content_close
+  line-height: 14px
+  right: 6px
+  top: 6px
+  position: absolute
+  display: block
+  cursor: pointer
+
 

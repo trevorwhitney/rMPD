@@ -52,16 +52,16 @@
           %input{ :type => 'range', :min => '0', :max => '100' }
   #song_info
     #track_info
-      #album_art= image_tag('trance.jpg', :size => '75x75')
+      #album_art= image_tag('no_art.png', :size => '75x75')
       #metadata
-        %span#title &nbsp;
+        %span#title Song Title
         #album_artist 
           #album_name
             %span.light from 
-            %span.album_name &nbsp;
+            %span.album_name Album Name
           #artist_name
             %span.light by
-            %span.artist_name &nbsp;
+            %span.artist_name Artist Name
     %ul#repeat_shuffle
       %li.shuffle &nbsp;
       %li.repeat &nbsp;
@@ -79,9 +79,9 @@
       %span.divider &nbsp;
     %li#playlist_button Playlists
   #navigation_content
-    #search_content.hidden
-      %h2 The search pane
-    #library_content
+    #search_content
+      #mpd_stream{ :class => 'jp-jplayer'}
+    #library_content.hidden
       #artists
         %ul#artist_list
       #albums
@@ -132,3 +132,7 @@
 #clear_playlist{ :title => "Clear the current playlist" }
   = image_tag('refresh.png')
   Clear Playlist
+
+#popup_content
+  %a#popup_content_close= image_tag('cross.png')
+  #large_album_art= image_tag('no_art.png', :size => '600x600')

@@ -74,28 +74,29 @@ $(document).ready(function(){
   $('li#search_button').click(function() {
     if (!$(this).hasClass('current')) {
       clear_menu();
-      $('#navigation_content #search_content').show();
+      console.log($('#navigation_content #search_content'));
+      $('#navigation_content #search_content').removeClass('hidden');
       $(this).addClass('current');
     }
   });
   $('li#library_button').click(function() {
     if (!$(this).hasClass('current')) {
       clear_menu();
-      $('#navigation_content #library_content').show();
+      $('#navigation_content #library_content').removeClass('hidden');
       $(this).addClass('current');
     }
   });
   $('li#filesystem_button').click(function() {
     if (!$(this).hasClass('current')) {
       clear_menu();
-      $('#navigation_content #filesystem_content').show();
+      $('#navigation_content #filesystem_content').removeClass('hidden');
       $(this).addClass('current');
     }
   });
   $('li#playlist_button').click(function() {
     if (!$(this).hasClass('current')) {
       clear_menu();
-      $('#navigation_content #playlist_content').show();
+      $('#navigation_content #playlist_content').removeClass('hidden');
       $(this).addClass('current');
     }
   })
@@ -119,4 +120,65 @@ $(document).ready(function(){
     headerOnly: true,
     onResize: adjust_playlist_widths
   });
+
+  //add listeners to album art for displaying popup
+  //display popip
+  $('#album_art').click(function(e) {
+    get_album_art(current_song.artist, current_song.album);
+    centerPopup();
+    loadPopup();
+  });
+  //close popup
+  //Click the x event!
+  $("#popup_content_close").click(function(){
+    disablePopup();
+  });
+  //Press Escape event!
+  $(document).keypress(function(e){
+  if(e.keyCode==27 && popupStatus==1){
+    disablePopup();
+  }
+  });
+
+  $("#mpd_stream").jPlayer({
+    swfPath: "/",
+    solution: 'html, flash',
+    supplied: 'oga',
+    preload: 'metadata',
+    volume: 0.8,
+    muted: false,
+    backgroundColor: '#000000',
+    cssSelectorAncestor: '#search_content',
+    cssSelector: {
+      videoPlay: '.jp-video-play',
+      play: '.jp-play',
+      pause: '.jp-pause',
+      stop: '.jp-stop',
+      seekBar: '.jp-seek-bar',
+      playBar: '.jp-play-bar',
+      mute: '.jp-mute',
+      unmute: '.jp-unmute',
+      volumeBar: '.jp-volume-bar',
+      volumeBarValue: '.jp-volume-bar-value',
+      volumeMax: '.jp-volume-max',
+      currentTime: '.jp-current-time',
+      duration: '.jp-duration',
+      fullScreen: '.jp-full-screen',
+      restoreScreen: '.jp-restore-screen',
+      repeat: '.jp-repeat',
+      repeatOff: '.jp-repeat-off',
+      gui: '.jp-gui',
+      noSolution: '.jp-no-solution'
+    },
+    size: {
+      width: '200px',
+      height: '50px'
+    },
+    errorAlerts: false,
+    warningAlerts: false
+  });
+  $('#mpd_stream').jPlayer("setMedia", {
+      oga: "http://mediacenter:8000/mpd.ogg"
+  });
+  $('#mpd_stream').jPlayer('play');
 });

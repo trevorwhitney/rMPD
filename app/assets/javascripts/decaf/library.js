@@ -6,12 +6,14 @@
 //as the library.json file
 var library = {};
 var track_list = {};
-var mpd_server = "http://rmpd-server.local:3000/";
+var mpd_server = "http://mediacenter:3000/";
 var playlist = [];
+var popupStatus = 0;
+var current_song;
 
 function clear_menu() {
   $('ul#nav_menu li.current').removeClass('current');
-  $('#navigation_content > div').hide();
+  $('#navigation_content > div').addClass('hidden');
 }
 
 //this builds the whole music library into memory. It takes the data object
@@ -361,6 +363,10 @@ function update_current_song(data) {
   $('span#title').text(data.title);
   $('div#album_name span.album_name').text(data.album);
   $('div#artist_name span.artist_name').text(data.artist);
+  
+  if (current_song == null || data.album != current_song.album) {
+    get_album_art(data.artist, data.album);
+  }
 
   clear_selected("playlist");
   var position = playlist.indexOf(data.title);
@@ -372,6 +378,29 @@ function update_current_song(data) {
       }
     }
   );
+  current_song = data;
+}
+
+function get_album_art(artist, album, thumbnail) {
+  $.ajax({
+    url: "http://ws.audioscrobbler.com/2.0/",
+    type: "POST",
+    dataType: "json",
+    data: "method=album.getinfo&api_key=c433c18b364aec4369ecb3c151f06f79" + 
+      "&artist=" + artist + "&album=" + album + "&format=json",
+    success: function(data) {
+      if (data.album != null) {
+        image_url = data.album.image[2]["#text"];
+        large_image_url = image_url = data.album.image[4]["#text"];
+        $('div#album_art img').attr("src", image_url);
+        $('div#large_album_art img').attr("src", large_image_url);
+      }
+      else {
+        //load empty album
+        $('div#album_art img').attr("src", "http://rmpd.local/assets/no_art.png");
+      }
+    }
+  });
 }
 
 function add_playlist_listeners() {
@@ -394,4 +423,33 @@ function add_playlist_listeners() {
 
 function pad2(number) {
   return (number < 10 ? '0' : '') + number.toString();
+}
+
+
+function loadPopup() {
+  if (popupStatus == 0) {
+    $("#popup_content").fadeIn(400);
+    popupStatus = 1;
+  }
+}
+
+function disablePopup() {
+  if (popupStatus == 1) {
+    $("#popup_content").fadeOut(200);
+    popupStatus = 0;
+  }
+}
+
+function centerPopup(){
+  //request data for centering
+  var windowWidth = document.documentElement.clientWidth;
+  var windowHeight = document.documentElement.clientHeight;
+  var popupHeight = $("#popup_content").height();
+  var popupWidth = $("#popup_content").width();
+  //centering
+  $("#popup_content").css({
+    "position": "absolute",
+    "top": windowHeight/2 - popupHeight/2,
+    "left": windowWidth/2 - popupWidth/2
+  });
 }
