@@ -7,3 +7,4 @@ db/*.sqlite3
 .rvmrc
 public/tmp/*
 app/assets/images/media-*.png
+doc/private
