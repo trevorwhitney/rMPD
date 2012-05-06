@@ -1,4 +1,4 @@
-var mpd_server = "http://mediacenter:3000/";
+var mpd_server = "http://localhost:3000/";
 
 var state_es = new EventSource(mpd_server + "state");
 state_es.onmessage = function(e) {

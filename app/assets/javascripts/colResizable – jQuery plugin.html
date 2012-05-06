@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>colResizable &#8211; jQuery plugin</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="content-language" content="en">
+  
+  <!-- informacion de indexado -->
+  <meta name="author" content="Alvaro Prieto Lauroba" />
+  <meta name="keywords" content="colResizable, jQuery, plugin, resize columns, resize table, resize grid, javascript, HTML, resizeable columns, multiple range selector, multiple range slider" />
+  <meta name="description" content="colResizable is a jQuery plugin designed to allow column resizing in HTML table objects" />
+  
+  
+  <!-- hojas de estilo principales -->
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
+  <script type="text/javascript"> lang = "english"; </script>
+ 
+</head>
+<body>
+	<div class="center">
+		<div class="abs top" >
+			<!-- botonera superior -->
+			<div id="buttons">
+				<div id="b1" class="button">Download</div>
+				<div id="b2" class="button">Documentation</div>
+				<div id="b3" class="button">Samples</div>
+				<div id="b4" class="button">Guestbook</div>
+				<div id="b5" class="button">Contact</div>
+			</div>
+			
+			<!-- pseudo combo de idioma -->
+			<div id="lang">English <div id="drop"><span class="dropItem" id="spanish">Spanish</span><span class="dropItem" id="english">English</span></div></div>
+			
+			<h1 id="title">colResizable documentation</h1>
+		</div>		
+		<div class="abs content">
+			<div class="section">
+				<div id="main">
+				
+					<!-- links ocultos que abren ventanas modales -->
+					<div id="links">
+						<a id="hlog" href="colResizable.png">changelog</a>
+						<a id="hguestbook" href="http://quocity.com/colresizable/spanish.html">guestbook</a>
+						<a id="hmail" href="https://github.com/alvaro-prieto/colResizable">contact me</a>
+					</div>
+
+					<!-- cache para imagenes importantes -->
+					<div id="cache">
+						<img src="img/dotted.png" alt="cache">
+					</div>
+					
+					<h2>About this plugin</h2>
+					
+					<p>
+						colResizable is a jQuery plugin designed to enhance any kind of HTML table object adding column resizing features by dragging column anchors manually.
+						
+						It is tiny in size (colResizable v1.0 is only 2.8kb) and it doesn´t require any other library dependencies such as jQuery-UI or others. It is fully compatible with all major browsers(IE7+, Firefox, Chrome and Opera), and works perfectly with both percentage and pixel-based table layouts.
+						<br/><br/>
+						colResizable can also be used as <a href="#rangeSlider"> multiple range slider</a>.
+					</p>
+					
+					<h2>Quick tour</h2>
+					<p>This is a basic example of what this plugin can do:</p>
+					<div id="dragSample1Container">
+						<div id="dragSample1" class="abs"></div>
+					</div>
+					<br/>
+					 
+					 <table  id="sample1" width="100%" border="0" cellpadding="0" cellspacing="0">
+					 	<tr>
+					 		<th>header</th><th>header</th><th>header</th><th>header</th>
+					 	</tr>
+						<tr>
+							<td class="left">cell</td><td>cell</td><td>cell</td><td class="right">cell</td>
+						</tr>
+						<tr>
+							<td class="left">cell</td><td>cell</td><td>cell</td><td class="right">cell</td>
+						</tr>
+						<tr>
+							<td class="left bottom">cell</td><td class="bottom">cell</td><td class="bottom">cell</td><td class="bottom right">cell</td>
+						</tr>																	
+					</table>
+					
+					<h2 id="features">Features</h2>
+					<p>colResizable was developed since no other similar plugin with the below listed features was found:</p>
+					<ul>
+					
+					<li>Small footprint</li>
+					<li>No other library dependencies </li>
+					<li>Column resizing not altering total table width</li>
+					<li>Compatibility with both percentage and pixel-based table layouts</li>
+					<li>No external resources needed (such as images or stylesheets)</li>					
+					<li>Layout persistence after postback</li>	
+					<li>Customization of column anchors </li>
+					<li>Cross-browser compatibility</>
+					<li>Events</li>
+					</ul>
+		
+					<h2 id="usage">Usage</h2>
+					<p>To use this plugin a script reference must be added to the colResizable.min.js file in the head section of the document once jQuery is loaded. To enhance a table (or collection of tables) point it with a jQuery wrapper and apply the <i>colResizable()</i> method.
+					
+					</br></br>
+					
+					Resizing grips will be located in the table according to its first row layout. For this reason, it is not recommended using colspan values in those cells. If colspan in the first row is required, just add an extra row before your table heading with no height so it won't be visible.
+					</br></br>
+					In order to prevent strange behaviors while resizing a column, you are highly encouraged to define the width of the table, either by using its width attribute, an inline style, or a css rule.
+					</br></br>
+					</p>
+<div class="code">
+<pre class="prettyprint">&lt;head&gt;
+  &lt;script src="js/jquery.js"&gt;&lt;/script&gt;
+  &lt;script src="js/colResizable.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;	 
+  &lt;table width="100%" &gt;
+    &lt;tr&gt; &lt;th&gt; header &lt;/th&gt; &lt;th&gt; header &lt;/th&gt; &lt;/tr&gt;
+    &lt;tr&gt; &lt;td&gt; cell &lt;/td&gt; &lt;td&gt; cell &lt;/td&gt; &lt;/tr&gt;							
+    &lt;tr&gt; &lt;td&gt; cell &lt;/td&gt; &lt;td&gt; cell &lt;/td&gt; &lt;/tr&gt;							
+  &lt;/table&gt;	
+&lt;/body&gt;</pre>		
+</div>	
+	<br/>		
+<div class="code"><pre class="prettyprint">$(function(){
+  $("table").colResizable();
+});</pre>	</div>
+
+					<h2 id="attributes">Customization</h2>
+					<p>
+					colResizable provides some customization attributes in order to modify its appearance and the way it works:
+					<br/><br/>
+					<h3>liveDrag:</h3> <h4>[type: boolean] [default: false] [version: 1.0]</h4> 
+					<br/><br/>
+					When set to <i>true</i> the table layout is updated while dragging column anchors. liveDrag enabled is more CPU consuming so it is not recommended for slow computers, specially when dealing with huge or extremely complicated tables. 
+					</p>
+					<br/>					
+					<h3>innerGripHtml:</h3> <h4> [type: string] [default: empty string] [version: 1.0]</h4>
+					<br/> <br/>
+					Its purpose is to allow column anchor customization by defining the HTML to be used in the column grips to provide some visual feedback. It can be used in a wide range of ways to obtain very different outputs, and its flexibility can be increased by combining it with the <i>draggingClass</i> attribute.					
+					</p>					
+					<br/> 
+					<p>
+					<h3>draggingClass:</h3> <h4>[type: string] [default: internal css class] [version: 1.0]</h4>
+					<br/><br/>
+					This attribute is used as the css class assigned to column anchors while being dragged. It can be used for visual feedback purposes.
+					</p>
+					<br/>
+					<p>
+					<h3>disable:</h3> <h4>[type: boolean] [default: false] [version: 1.0]</h4>
+					<br/><br/>
+					When set to <i>true</i> it aims to remove all previously added enhancements such as events and additional DOM elements assigned by this plugin to a single or collection of tables. It is required to disable a previously <i>colResized</i> table prior its removal from the document object tree.
+					</p>
+					<br/>					
+					<p>
+					<h3>minWidth:</h3> <h4>[type: number] [default: 15]  [version: 1.1]</h4>
+					<br/><br/>
+					This value specifies the minimum width (measured in pixels) that is allowed for the columns.
+					</p>
+					<br/>
+					<p>
+					<h3>headerOnly:</h3> <h4>[type: boolean] [default: false]  [version: 1.2]</h4>
+					<br/><br/>
+					This attribute can be used to prevent vertical expansion of the column anchors to fit the table height. If it is set to true, column handler's size will be bounded to the first row's vertical size.
+					</p>
+					<br/>				
+
+					<p>
+					<h3>hoverCursor:</h3> <h4>[type: string] [default: "e-resize"] [version: 1.3]</h4>
+					<br/><br/>
+					This attribute can be used to customize the cursor that will be displayed when the user is positioned on the column anchors.
+					</p>
+					<br/>	
+					
+					<p>
+					<h3>dragCursor:</h3> <h4>[type: string] [default: "e-resize"] [version: 1.3]</h4>
+					<br/><br/>
+					Defines the cursor that will be used while the user is resizing a column.
+					</p>
+					<br/>						
+					
+					
+					<p>
+					<h3>postbackSafe:</h3> <h4>[type: boolean] [default: false]  [version: 1.3]</h4>
+					<br/><br/>
+					This attribute can be used to specify that the manually selected column widths must remain unaltered after a postback or browser refresh.  This feature is mainly oriented to those pages created with server-side logic (codebehind), such as PHP or .NET, and it is only compatible with browsers with <i>sessionStorage</i> support (all modern browsers). However, if you are targeting older browsers (such as IE7 and IE8) you can still emulate sessionStorage using <a href="http://code.google.com/p/sessionstorage/">sessionStorage.js</a>. It is important to note that some browsers (IE and FF) doesn’t enable the sessionStorage object while running the website directly from the local file system, so if you want to test this feature it is recommended to view the website through a web server or use browsers such as Chrome or Opera which doesn’t have this limitation. Don't worry about compatibility issues, once your site is up on the internet, all browsers will act in exactly the same way.
+					</p>
+					<br/>	
+
+					<p>
+					<h3>flush:</h3> <h4>[type: boolean] [default: false]  [version: 1.3]</h4>
+					<br/><br/>
+					Flush is only effective when <i>postbackSafe</i> is enabled. Its purpose is to remove all previously stored data related to the current table layout to get it back to its original layout preventing width restoration after postback.
+					</p>
+					<br/>	
+					
+					<p>
+					<h3>marginLeft:</h3> <h4>[type: string / null] [default: null] [version: 1.3]</h4>
+					<br/><br/>
+					If the target table contains an explicit <i>margin-left</i> CSS rule, the same value must be used in this attribute (for example: "auto", "20%", "10px"). The reason why it is needed it is because most browsers (all except of IE) don’t allow direct access to the current CSS rule applied to an element in its original units (such as "%", "em" or "auto" values). If you know any workaround which doesn’t involve iteration through all the styles defined in the site and any other external dependencies, please let me know! 					
+					</p>
+					<br/>	
+
+					<p>
+					<h3>marginRight:</h3> <h4>[type: string / null] [default: null] [version: 1.3]</h4>
+					<br/><br/>
+					It behaves in exactly the same way than the previous attribute but applied to the right margin.
+					</p>
+					<br/>	
+				
+					<h2 id="events">Events</h2>
+					<h3>onResize:</h3> <h4>[type: callback function] [default: null] [version: 1.0]</h4>
+					<br/><br/>
+					<p>If a callback function is supplied it will be fired when the user has ended dragging a column anchor altering the previous table layout. The callback function can obtain a reference to the updated table through the <i>currentTarget</i> attribute of the event retrieved by parameters</p>
+					<br/>
+					<h3>onDrag:</h3> <h4>[type: callback function] [default: null] [version: 1.1]</h4>
+					<br/><br/>
+					<p>This event is fired while dragging a column anchor if <i>liveDrag</i> is enabled. It can be useful if the table is being used as a multiple range slider. The callback function can obtain a reference to the updated table through the <i>currentTarget</i> attribute of the event retrieved by parameters</p>
+
+					
+					<h2 id="samples">Samples</h2>
+					
+					<h3>General sample, attributes and events</h3>
+					<br/><br/>
+					<p>In the following sample, column anchors are customized to use a user-defined appearance. This can be achieved by defining the HTML segment that will be appended to each anchor and using some CSS rules to style it up. <i>DraggingClass</i> can also be used in order to change the appearance of the anchors while being dragged. 
+					<br/><br/>
+					A callback event is defined to obtain the new dimensions of the table layout after resizing its columns.
+					</p>
+					<br/>
+					
+					 <table id="sample2" width="100%" border="0" cellpadding="0" cellspacing="0">
+					 	<tr>
+					 		<th>header</th><th>header</th><th>header</th>
+					 	</tr>
+						<tr>
+							<td class="left">cell</td><td>cell</td><td class="right">cell</td>
+						</tr>
+						<tr>
+							<td class="left">cell</td><td>cell</td><td class="right">cell</td>
+						</tr>
+						<tr>
+							<td class="left bottom">cell</td><td class="bottom">cell</td><td class="bottom right">cell</td>
+						</tr>																	
+					</table>
+					<br/>
+					<div class="sampleText">
+						<label id="sample2Txt">columns widths: 191px; 192px; 192px;</label>
+						<input id="checkCustom" class="check" type="checkbox" checked="checked"/><label class="check">use custom anchors</label>
+						<input id="checkLive" class="check" type="checkbox" checked="checked"/><label class="check">liveDrag</label>					
+					</div>
+					
+					<br/>
+					
+					<div class="sampleOptions">
+						<a href="#" class="view">Show code</a><a href="files/colResizable.Demo.zip" class="get">Download sample</a>
+					</div>
+					<div class="sampleCode">
+					<br/>
+<div class="code"><pre class="prettyprint">$(function(){
+  
+  var onSampleResized = function(e){  
+    var table = $(e.currentTarget); //reference to the resized table
+  };  
+
+ $("#sample").colResizable({
+    liveDrag:true,
+    gripInnerHtml:"&lt;div class='grip'&gt;&lt;/div&gt;", 
+    draggingClass:"dragging", 
+    onResize:onSampleResized
+  });    
+  
+});</pre>	</div>	
+					</div>				
+					<br/><br/>
+					<h3>Percentage-based layouts</h3>
+					<br/><br/>
+					<p>In the following demo, probably the most interesting feature of this plugin is shown: it is compatible with both pixel and percentage-based layouts. This means that the table outter width will remain constant as columns are resized. If the parent container of the table is resized and its width is measured in percentage, the table will be updated just as expected. To test it, resize the table object using the  handler located on the bottom-right corner.
+					<br/><br/>
+					NOTE: jQuery-UI <i>resizable</i> method was used to simulate a liquid layout in this sample.</p>
+					<br/>
+										
+					<div id="resizeBox">
+						 <table id="sample3" width="100%" border="0" cellpadding="0" cellspacing="0">
+						 	<tr>
+						 		<th>header</th><th>header</th><th>header</th><th>header</th>
+						 	</tr>
+							<tr>
+								<td class="left">cell</td><td>cell</td><td>cell</td><td class="right">cell</td>
+							</tr>
+							<tr>
+								<td class="left">cell</td><td>cell</td><td>cell</td><td class="right">cell</td>
+							</tr>
+							<tr>
+								<td class="left bottom">cell</td><td class="bottom">cell</td><td class="bottom">cell</td><td class="bottom right">cell</td>
+							</tr>																	
+						</table>				
+					</div>
+					<div id="dragit"></div>
+					<br/><br/>
+					
+					<h3 id="rangeSlider">multiple range slider</h3>
+					<br/><br/>
+					<p>colResizable can also be used to emulate multiple range sliders, enabling a wide range of appearances <p>
+					<br/>				
+					<table id="sample4" width="100%" cellspacing="0" cellpadding="0" border="0">
+						<tr>
+							<td id="veg" width="35%"> </td>
+							<td id="bread" width="25%">	</td>
+							<td id="meat" width="17%">	</td>
+							<td id="milk" width="14%">	</td>
+							<td id="sweets" width="7%"> </td>
+						</tr>
+					</table>
+					
+					<br/><br/>
+					<p>It can also look like a typical range-slider using the <i>gripInnerHtml</i> attribute. Values can be calculated in the callback function by comparing column width with the table size as follows:<p>
+					<br/>	
+					
+					<table id="sample5" width="100%" cellspacing="0" cellpadding="0" border="0">
+						<tr>
+							<td width="25%"></td>
+							<td width="25%"></td>
+							<td width="25%"></td>
+							<td width="25%"></td>
+						</tr>
+					</table>					
+					<p id="sample5Text">Ranges: 25%, 25%, 25%, 25%</p>
+					
+					<br/><br/>
+
+					<div class="sampleOptions">
+						<a href="#" class="view">Show code</a><a href="files/rangeSlider.Demo.zip" class="get">Download sample</a>
+					</div>
+					<div class="sampleCode">
+					<br/>
+<div class="code"><pre class="prettyprint">$("#sample5").colResizable({
+	liveDrag:true, 
+	draggingClass:"rangeDrag", 
+	gripInnerHtml:"&lt;div class='rangeGrip'&gt;&lt;/div&gt;", 
+	onResize:onSlide,
+	minWidth:8
+});	
+
+var onSlider = function(e){
+	var columns = $(e.currentTarget).find("td");
+	var ranges = [], total = 0, i, s = "Ranges: ", w;
+	for(i = 0; i&lt;columns.length; i++){
+		w = columns.eq(i).width()-10 - (i==0?1:0);
+		ranges.push(w);
+		total+=w;
+	}		 
+	for(i=0; i&lt;columns.length; i++){			
+		ranges[i] = 100*ranges[i]/total;
+		carriage = ranges[i]-w
+		s+=" "+ Math.round(ranges[i]) + "%,";			
+	}		
+	s=s.slice(0,-1);		
+	$("#sample5Text").html(s);
+}</pre>	</div>	
+					</div>				<br/><br/>					
+			
+		<p>Highlighted ranges can be done using a different style for a single or multiple columns as shown in the following sample:<p>
+		<br/>		
+		<table id="sample6" width="100%" cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td width="25%"></td>
+				<td id="selection" width="50%"> <span/></td>
+				<td width="25%"></td>
+			</tr>
+		</table>
+		<br/>
+		<p id="sample6Text">Selected range: 50.0% starting at: 25.0%</p>		
+			<br/>	<br/>
+	<div class="sampleOptions">
+						<a href="#" class="view">Show code</a><a href="files/rangeSlider.Demo2.zip" class="get">Download sample</a>
+					</div>
+					<div class="sampleCode">
+					<br/>			
+<div class="code"><pre class="prettyprint">var onSlide = function(e){
+    var columns = $(e.currentTarget).find("td");
+    var ranges = [], total = 0, i, w;
+    for(i = 0; i&lt;columns.length; i++){
+        w = columns.eq(i).width()-14 - (i==0?1:0);				
+        ranges.push(w);
+        total+=w;
+    }		 
+    for(i=0; i&lt;columns.length; i++){			
+        ranges[i] = 100*ranges[i]/total;											
+    }		   			
+    $("#text").html("Selected: " ranges[1]+ "%");
+}</pre></div>
+</div>
+			
+			<br/>
+					<div id="dwnTitle">
+						<div id="dwnImage" title="download latest version"></div>
+						<h2 id="download" title="download latest version">Download</h2>
+					</div>
+					<br/>
+						 <table id="downloadTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+						 	<tr>
+						 		<th width="30%">Version</th><th>Changelog</th><th width="12%">Download</th><th width="12%">Source</th>
+						 	</tr>
+
+							<tr>
+								<td class="left">Version 1.3</td><td><a class="changelog" href="#" ver="1.3">Changelog 1.3</a></td><td><a id="lastDownload" class="dwn" href="files/colResizable-1.3.zip" title="download colResizable 1.3 and samples"></a></td><td class="right"><a class="dwn" href="files/colResizable-1.3-source.zip" title="download colResizable 1.3 source code"></a></td>
+							</tr>																	
+
+
+							<tr>
+								<td class="left">Version 1.2</td><td><a class="changelog" href="#" ver="1.2">Changelog 1.2</a></td><td><a class="dwn" href="files/colResizable-1.2.zip" title="download colResizable 1.2 and samples"></a></td><td class="right"><a class="dwn" href="files/colResizable-1.2-source.zip" title="download colResizable 1.2 source code"></a></td>
+							</tr>																	
+
+							
+							<tr>
+								<td class="left">Version 1.1</td><td><a class="changelog" href="#" ver="1.1">Changelog 1.1</a></td><td><a class="dwn" href="files/colResizable-1.1.zip" title="download colResizable 1.1 and samples"></a></td><td class="right"><a class="dwn" href="files/colResizable-1.1-source.zip" title="download colResizable 1.1 source code"></a></td>
+							</tr>																	
+							
+							
+							<tr>
+								<td class="left bottom">Version 1.0</td><td class="bottom">Released version 1.0</td><td class="bottom"><a  class="dwn" href="files/colResizable-1.0.zip" title="download colResizable and samples"></a></td><td class="bottom right"><a class="dwn" href="files/colResizable-1.0-source.zip" title="download colResizable source code"></a></td>
+							</tr>																	
+						</table>					
+
+					<h2 id="license">License</h2>
+					
+					<p>You can use or distribute colResizable for free for both personal or commercial purposes. <a href="https://github.com/alvaro-prieto/colResizable" title="colResizable repository in GitHub">Source code</a> is also released in order to allow custom modifications to adjust it to your own personal needs. In both cases, my full name must remain intact in the script file.					
+					<br/><br/>
+					colResizable was released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT</a> and <a href="http://www.gnu.org/licenses/gpl.html">GPL</a> licenses
+					</p>
+					
+					<h2>Credits</h2>
+					
+					<p>colResizable was developed by Alvaro Prieto Lauroba in 2011. Feel free <a id="mail" href="#">to contact me</a> for further information or just leave a comment in our <a id="guestbook" href="#">guestbook</a>.
+					<br/><br/>
+					This site design was strongly inspired by the official <a href="http://jquery.com/">jQuery site</a>. If there is any copyright problem about that, please let me know  (I used it since jQuery developers are used to its layout and colors).
+					</p>
+					
+					<h2>Acknowledgements</h2>
+					<p>
+					Acknowledgements to my family, Jennifer Villarroel, Elisa M Pequerul, Jorge Villabona, Ismael Gaudioso, <a href="http://quocity.com">QuoCity</a> and the whole jQuery development team.
+					</p>										
+				</div>   
+				
+			<h1 id="quicklinks" class="abs">Quick Links</h1>
+			
+			<!-- botonera lateral izquierda -->
+			<div class="abs side">
+				<div class="abs bound">
+					<a href="#download">Download</a>
+					<a href="#samples">Samples</a>
+					<a href="#features">Features</a>
+					<a href="#usage">Usage</a>
+					<a href="#attributes">Attributes</a>
+					<a href="#events">Events</a>
+					<a href="#license">License</a>
+					<a id="sideGuestbook" href="#">Guestbook</a>
+				</div> 
+			</div> 		
+			
+		</div>   			
+
+		<!-- borde redondeado inferior de la pagina -->
+		<div id="bottom" ></div>   			
+		</div> 		
+		
+	</div>
+	
+	<!-- control de desbloqueo manual para evitar spam -->
+	<div id="unlockOverlay">
+		<div id="outbox">
+			<span id="unlockTitle"></span>
+			<div id="unlock-bottom">
+				<div id="slide-to-unlock"></div>
+				<div id="unlock-slider-wrapper">
+					<div id="unlock-slider"><div id="unlock-handle"></div></div>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+	<!-- seccion de scripts -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/ui.js"></script>
+  <script type="text/javascript" src="js/colResizable-1.3.min.js"></script>
+  <script type="text/javascript" src="js/prettify.js"></script>  
+  <script type="text/javascript" src="js/main.js"></script>  
+  <script type="text/javascript" src="fancybox/fancybox.js"></script>
+  
+  <!-- hojas de estilo adicionales -->
+  <link rel="stylesheet" type="text/css" href="fancybox/fancybox.css" media="screen" />		
+		
+ </body>
+ </html>

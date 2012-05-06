@@ -1,4 +1,4 @@
-var mpd_server = "http://mediacenter:3000/";
+var mpd_server = "http://localhost:3000/";
 
 var pause = function() {
   $.ajax({

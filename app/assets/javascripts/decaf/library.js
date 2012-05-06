@@ -6,7 +6,7 @@
 //as the library.json file
 var library = {};
 var track_list = {};
-var mpd_server = "http://mediacenter:3000/";
+var mpd_server = "http://localhost:3000/";
 var playlist = [];
 var popupStatus = 0;
 var current_song;
@@ -378,6 +378,7 @@ function update_current_song(data) {
       }
     }
   );
+  var now = new Date().getTime();
   current_song = data;
 }
 
@@ -390,15 +391,15 @@ function get_album_art(artist, album, thumbnail) {
       "&artist=" + artist + "&album=" + album + "&format=json",
     success: function(data) {
       if (data.album.image[2]["#text"].length > 0) {
-        console.log(data);
         image_url = data.album.image[2]["#text"];
-        large_image_url = image_url = data.album.image[4]["#text"];
         $('div#album_art img').attr("src", image_url);
-        $('div#large_album_art img').attr("src", large_image_url);
+        if (data.album.image[4]["#text"].length > 0) {
+          large_image_url = image_url = data.album.image[4]["#text"];
+          $('div#large_album_art img').attr("src", large_image_url);
+        }
       }
       else {
         //load empty album
-        console.log($('div#album_art img'));
         $('div#album_art img').attr("src", "http://rmpd.local/assets/no_art.png");
       }
     }
