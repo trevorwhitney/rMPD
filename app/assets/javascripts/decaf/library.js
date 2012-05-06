@@ -389,7 +389,8 @@ function get_album_art(artist, album, thumbnail) {
     data: "method=album.getinfo&api_key=c433c18b364aec4369ecb3c151f06f79" + 
       "&artist=" + artist + "&album=" + album + "&format=json",
     success: function(data) {
-      if (data.album != null) {
+      if (data.album.image[2]["#text"].length > 0) {
+        console.log(data);
         image_url = data.album.image[2]["#text"];
         large_image_url = image_url = data.album.image[4]["#text"];
         $('div#album_art img').attr("src", image_url);
@@ -397,6 +398,7 @@ function get_album_art(artist, album, thumbnail) {
       }
       else {
         //load empty album
+        console.log($('div#album_art img'));
         $('div#album_art img').attr("src", "http://rmpd.local/assets/no_art.png");
       }
     }
