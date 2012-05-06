@@ -140,45 +140,39 @@ $(document).ready(function(){
   }
   });
 
-  $("#mpd_stream").jPlayer({
-    swfPath: "/",
-    solution: 'html, flash',
-    supplied: 'oga',
-    preload: 'metadata',
-    volume: 0.8,
-    muted: false,
-    backgroundColor: '#000000',
-    cssSelectorAncestor: '#search_content',
-    cssSelector: {
-      videoPlay: '.jp-video-play',
-      play: '.jp-play',
-      pause: '.jp-pause',
-      stop: '.jp-stop',
-      seekBar: '.jp-seek-bar',
-      playBar: '.jp-play-bar',
-      mute: '.jp-mute',
-      unmute: '.jp-unmute',
-      volumeBar: '.jp-volume-bar',
-      volumeBarValue: '.jp-volume-bar-value',
-      volumeMax: '.jp-volume-max',
-      currentTime: '.jp-current-time',
-      duration: '.jp-duration',
-      fullScreen: '.jp-full-screen',
-      restoreScreen: '.jp-restore-screen',
-      repeat: '.jp-repeat',
-      repeatOff: '.jp-repeat-off',
-      gui: '.jp-gui',
-      noSolution: '.jp-no-solution'
-    },
-    size: {
-      width: '200px',
-      height: '50px'
-    },
-    errorAlerts: false,
-    warningAlerts: false
-  });
-  $('#mpd_stream').jPlayer("setMedia", {
-      oga: "http://mediacenter:8000/mpd.ogg"
-  });
-  $('#mpd_stream').jPlayer('play');
+  print_current_time();
+  timer_loop();
 });
+
+function print_time(elapsed, percent) {
+  var minutes = Math.floor(elapsed / 60);
+  var seconds = pad2(elapsed % 60);
+  $('#seek_time').text(minutes + ":" + seconds);
+}
+
+function print_current_time() {
+  $.ajax({
+    url: mpd_server + 'time',
+    aync: true,
+    dataType: 'json',
+    success: function(data) {
+      print_time(data.elapsed, data.percent);
+    }
+  });
+}
+
+function timer_loop() {
+   setTimeout(function() {
+      $.ajax({
+        url: mpd_server + 'time',
+        aync: true,
+        dataType: 'json',
+        success: function(data) {
+          print_time(data.elapsed, data.percent);
+        },
+        complete: function() {
+          timer_loop();
+        }
+      });
+  }, 5000);
+}
