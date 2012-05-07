@@ -6,7 +6,7 @@
 //as the library.json file
 var library = {};
 var track_list = {};
-var mpd_server = "http://localhost:3000/";
+var mpd_server = "http://mediacenter:3000/";
 var playlist = [];
 var popupStatus = 0;
 var current_song;
@@ -390,17 +390,19 @@ function get_album_art(artist, album, thumbnail) {
     data: "method=album.getinfo&api_key=c433c18b364aec4369ecb3c151f06f79" + 
       "&artist=" + artist + "&album=" + album + "&format=json",
     success: function(data) {
-      if (data.album.image[2]["#text"].length > 0) {
-        image_url = data.album.image[2]["#text"];
-        $('div#album_art img').attr("src", image_url);
-        if (data.album.image[4]["#text"].length > 0) {
-          large_image_url = image_url = data.album.image[4]["#text"];
-          $('div#large_album_art img').attr("src", large_image_url);
+      if (data.error == null) {
+        if (data.album.image[2]["#text"].length > 0) {
+          image_url = data.album.image[2]["#text"];
+          $('div#album_art img').attr("src", image_url);
+          if (data.album.image[4]["#text"].length > 0) {
+            large_image_url = image_url = data.album.image[4]["#text"];
+            $('div#large_album_art img').attr("src", large_image_url);
+          }
         }
-      }
-      else {
-        //load empty album
-        $('div#album_art img').attr("src", "http://rmpd.local/assets/no_art.png");
+        else {
+          //load empty album
+          $('div#album_art img').attr("src", "http://rmpd.local/assets/no_art.png");
+        }
       }
     }
   });
