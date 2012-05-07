@@ -1,6 +1,6 @@
-var mpd_server = "http://mediacenter:3000/";
+var mpd_server = "http://localhost:3000/";
 
-var timer = new WebSocket("ws://mediacenter:3001/");
+var timer = new WebSocket("ws://localhost:3001/");
 timer.onmessage = function(message) {
   message = $.parseJSON(message.data);
   if (message.time != null) {
@@ -31,4 +31,5 @@ function print_time(elapsed, total) {
   var seconds = pad2(elapsed % 60);
   var percent = Math.floor((elapsed/total)*100);
   $('#seek_time').text(minutes + ":" + seconds);
+  $('#seek_bar').slider("value", percent);
 }

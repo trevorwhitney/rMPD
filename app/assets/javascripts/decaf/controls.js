@@ -1,4 +1,4 @@
-var mpd_server = "http://mediacenter:3000/";
+var mpd_server = "http://localhost:3000/";
 
 var pause = function() {
   $.ajax({
@@ -30,6 +30,7 @@ function add_control_listeners() {
         if (!$('li#play').hasClass('pause')) {
           $('li#play').addClass('pause');
         }
+        reset_slider();
         update_current_song(data);
       }
     });
@@ -48,6 +49,7 @@ function add_control_listeners() {
       async: true,
       success: function(data) {
         $('li#play').removeClass('pause');
+        reset_slider();
       }
     });
   });
@@ -60,6 +62,7 @@ function add_control_listeners() {
         if (!$('li#play').hasClass('pause')) {
           $('li#play').addClass('pause');
         }
+        reset_slider();
         update_current_song(data);
       }
     });
@@ -70,4 +73,9 @@ function add_control_listeners() {
   $('ul#repeat_shuffle li.shuffle').click(function() {
     $(this).toggleClass('selected');
   });
+}
+
+function reset_slider() {
+ $('#seek_bar').slider("value", 0);
+ $('#seek_time').text("0:00");
 }

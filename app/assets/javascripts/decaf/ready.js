@@ -57,7 +57,10 @@ $(document).ready(function(){
   $.ajax({
     url: mpd_server + 'current_song',
     dataType: 'json',
-    success: function(data) { update_current_song(data) }
+    success: function(data) { 
+      if (!data.no_song)
+        update_current_song(data);
+    }
   });
 
   //add listeners to artists
@@ -138,5 +141,25 @@ $(document).ready(function(){
   if(e.keyCode==27 && popupStatus==1){
     disablePopup();
   }
+  });
+
+  $('#seek_bar').slider({
+    min: 0,
+    max: 100,
+    step: 1,
+    range: 'min',
+    animate: true,
+    stop: function(event, ui) {
+      //seek to selected position in the song
+      $.ajax({
+        url: mpd_server + 'seek',
+        type: 'POST',
+        dataType: 'json',
+        data: "percent=" + ui.value,
+        success: function(data) {
+          print_time(data.elapsed, data.total);
+        }
+      })
+    }
   });
 });

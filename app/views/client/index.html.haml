@@ -49,19 +49,18 @@
       %ul#track_seek
         %li#seek_time 0:00
         %li#seek_bar
-          %input{ :type => 'range', :min => '0', :max => '100' }
   #song_info
     #track_info
       #album_art= image_tag('no_art.png', :size => '75x75')
       #metadata
-        %span#title Song Title
+        %span#title No Song
         #album_artist 
           #album_name
             %span.light from 
-            %span.album_name Album Name
+            %span.album_name Absent Album
           #artist_name
             %span.light by
-            %span.artist_name Artist Name
+            %span.artist_name Unknown Artist
     %ul#repeat_shuffle
       %li.shuffle &nbsp;
       %li.repeat &nbsp;
@@ -79,10 +78,8 @@
       %span.divider &nbsp;
     %li#playlist_button Playlists
   #navigation_content
-    #search_content
-      #jquery_jplayer_1.jp-jplayer{:style => "width: 0px; height: 0px; "}
-      #jp_container_1.jp-audio
-    #library_content.hidden
+    #search_content.hidden
+    #library_content
       #artists
         %ul#artist_list
       #albums
