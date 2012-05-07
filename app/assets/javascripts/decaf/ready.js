@@ -139,40 +139,4 @@ $(document).ready(function(){
     disablePopup();
   }
   });
-
-  print_current_time();
-  timer_loop();
 });
-
-function print_time(elapsed, percent) {
-  var minutes = Math.floor(elapsed / 60);
-  var seconds = pad2(elapsed % 60);
-  $('#seek_time').text(minutes + ":" + seconds);
-}
-
-function print_current_time() {
-  $.ajax({
-    url: mpd_server + 'time',
-    aync: true,
-    dataType: 'json',
-    success: function(data) {
-      print_time(data.elapsed, data.percent);
-    }
-  });
-}
-
-function timer_loop() {
-   setTimeout(function() {
-      $.ajax({
-        url: mpd_server + 'time',
-        aync: true,
-        dataType: 'json',
-        success: function(data) {
-          print_time(data.elapsed, data.percent);
-        },
-        complete: function() {
-          timer_loop();
-        }
-      });
-  }, 5000);
-}
