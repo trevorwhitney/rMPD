@@ -10,8 +10,6 @@ gem 'recaptcha'
 gem 'pry'
 gem 'oily_png'
 gem 'heroku'
-gem 'sass'
-gem 'compass'
 
 
 group :assets do
