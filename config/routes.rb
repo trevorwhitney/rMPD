@@ -1,13 +1,13 @@
 Rmpd::Application.routes.draw do
 
-  get "client/index"
+  resources :clients
 
   resources :user_sessions, :only => [:new, :create, :destroy]
 
   match '/login' => 'user_sessions#new', :as => :login
   match '/logout' => 'user_sessions#destroy', :as => :logout
 
-  root :to => 'client#index'
+  root :to => 'user_sessions#new'
 
   namespace :admin do
     resources :users

@@ -3,7 +3,7 @@ authorization do
   end
 
   role :administrator do
-    has_permission_on [:admin_users, :admin_roles], 
+    has_permission_on [:admin_users, :admin_roles, :clients], 
       :to => [:index, :show, :edit, :create, :update, :destroy, :new]
     has_permission_on [:members_games, :members_users],
       :to => :index
