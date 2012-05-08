@@ -5,14 +5,10 @@
     = stylesheet_link_tag    "application", :media => "all"
     = stylesheet_link_tag "/jquery-ui-1.8.20.custom.css"
     = javascript_include_tag "application"
+    = yield :javascript
     = csrf_meta_tags
   %body
-    #loading
-      %h1 Loading...
-    #container{ :class => 'hidden' }
-      #masthead
-        %span.title MPDremote
-        %span.settings= image_tag('settings.png')
+    #container
       = render "flash/messages"
       #content
         = yield
