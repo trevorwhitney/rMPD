@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.0'
 
-gem 'sqlite3'
+gem 'pg'
 gem 'authlogic'
 gem 'declarative_authorization'
 gem 'will_paginate'

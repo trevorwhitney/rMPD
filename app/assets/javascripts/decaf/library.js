@@ -6,7 +6,7 @@
 //as the library.json file
 var library = {};
 var track_list = {};
-var mpd_server = "http://localhost:3000/";
+var mpd_server = "http://trevorwhitney.net:3000/";
 var playlist = [];
 var popupStatus = 0;
 var current_song;

@@ -6,7 +6,7 @@ $(document).ready(function(){
     url:"/library.json",
     async: false,
     beforeSend: function(xhr) {
-      $('div#container').hide();
+      $('div#client').hide();
       $('div#loading').show();
     },
     success: function(data) {
@@ -17,7 +17,7 @@ $(document).ready(function(){
       //before showing the library
       load_artists(library);
       $('div#loading').hide();
-      $('div#container').show();
+      $('div#client').show();
     }
   });
 

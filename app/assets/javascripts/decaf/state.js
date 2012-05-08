@@ -1,6 +1,6 @@
-var mpd_server = "http://localhost:3000/";
+var mpd_server = "http://trevorwhitney.net:3000/";
 
-var timer = new WebSocket("ws://localhost:3001/");
+var timer = new WebSocket("ws://trevorwhitney.net:3001/");
 timer.onmessage = function(message) {
   message = $.parseJSON(message.data);
   if (message.time != null) {
@@ -21,6 +21,7 @@ timer.onmessage = function(message) {
     $.ajax({
       url: mpd_server + 'current_song',
       dataType: 'json',
+      async: true,
       success: function(data) { update_current_song(data) }
     });
   }
