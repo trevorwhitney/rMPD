@@ -146,6 +146,7 @@ PLATFORMS
 DEPENDENCIES
   authlogic
   coffee-rails (~> 3.2.1)
+  compass
   compass-rails
   declarative_authorization
   haml-rails
@@ -156,6 +157,7 @@ DEPENDENCIES
   pry
   rails (= 3.2.0)
   recaptcha
+  sass
   sass-rails (~> 3.2.3)
   uglifier (>= 1.0.3)
   will_paginate

@@ -10,10 +10,13 @@ gem 'recaptcha'
 gem 'pry'
 gem 'oily_png'
 gem 'heroku'
-gem 'sass-rails',   '~> 3.2.3'
+gem 'sass'
+gem 'compass'
+
 
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails',   '~> 3.2.3'
   gem 'compass-rails'
   gem 'haml-rails'
 
