@@ -9,9 +9,10 @@ gem 'will_paginate'
 gem 'recaptcha'
 gem 'pry'
 gem 'oily_png'
+gem 'heroku'
+gem 'sass-rails',   '~> 3.2.3'
 
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'compass-rails'
   gem 'haml-rails'
