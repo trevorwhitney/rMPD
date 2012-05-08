@@ -12,5 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
-//= require_tree ./decaf/
+//= require colResizable-1.3.min.js
+//= require jquery-ui-1.8.20.custom.min.js
+//= require mustache.js
