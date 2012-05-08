@@ -2,7 +2,12 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.0'
 
-gem 'pg'
+group :production, :staging do
+  gem 'pg'
+end
+group :development, :test do
+  gem "sqlite3"
+end
 gem 'authlogic'
 gem 'declarative_authorization'
 gem 'will_paginate'
