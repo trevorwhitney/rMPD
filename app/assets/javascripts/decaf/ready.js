@@ -37,9 +37,6 @@ $(document).ready(function(){
       populate_artists(data);
     },
     complete: function() {
-      //laod the artist and album lists defualting to selecting "All" artists
-      //before showing the library
-      load_artists(library);
       $('div#loading').hide();
       $('div#client').show();
     }
