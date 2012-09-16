@@ -39,9 +39,15 @@ function get_library(data) {
 }
 
 function populate_artists(data) {
-  $.each(data, function(i, artist) {
-    console.log(artist.artist.name);
-  })
+  results = $.parseJSON(data);
+  var artist_template = $('#artist_template').html();
+  $.each(results.artists, function(i, artist) {
+    var template_data = {
+      artist_name: artist
+    }
+    $("ul#artist_list").append(
+      Mustache.render(artist_template, template_data));
+  });
 }
 
 //takes a string as an argument that is either artists, albums, or tracks

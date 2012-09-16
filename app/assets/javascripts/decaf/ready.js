@@ -33,7 +33,7 @@ $(document).ready(function(){
       $('div#loading').show();
     },
     success: function(data) {
-      console.log(data);
+      //console.log(data.artists);
       populate_artists(data);
     },
     complete: function() {
