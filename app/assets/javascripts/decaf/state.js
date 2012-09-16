@@ -1,6 +1,6 @@
-var mpd_server = "http://trevorwhitney.net:3000/";
+var mpd_server = "http://localhost:3030/";
 
-var timer = new WebSocket("ws://trevorwhitney.net:3001/");
+var timer = new WebSocket("ws://localhost:3001/");
 timer.onmessage = function(message) {
   message = $.parseJSON(message.data);
   if (message.time != null) {

@@ -6,7 +6,7 @@
 //as the library.json file
 var library = {};
 var track_list = {};
-var mpd_server = "http://trevorwhitney.net:3000/";
+var mpd_server = "http://localhost:3030/";
 var playlist = [];
 var popupStatus = 0;
 var current_song;
@@ -36,6 +36,12 @@ function get_library(data) {
     });
     library[artist.name] = album_list;
   });
+}
+
+function populate_artists(data) {
+  $.each(data, function(i, artist) {
+    console.log(artist.artist.name);
+  })
 }
 
 //takes a string as an argument that is either artists, albums, or tracks

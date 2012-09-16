@@ -1,8 +1,10 @@
+var mpd_server = "http://localhost:3030/";
+
 //wait for the page to load, and then set everything up here
 $(document).ready(function(){
   //get the library, which is contained in a cached json file
   //the complete parameter handles the "loading" screen
-  $.ajax({
+  /*$.ajax({
     url:"/library.json",
     async: false,
     beforeSend: function(xhr) {
@@ -11,6 +13,28 @@ $(document).ready(function(){
     },
     success: function(data) {
       get_library(data);
+    },
+    complete: function() {
+      //laod the artist and album lists defualting to selecting "All" artists
+      //before showing the library
+      load_artists(library);
+      $('div#loading').hide();
+      $('div#client').show();
+    }
+  }); */
+
+  $.ajax({
+    url: mpd_server + '/artists',
+    async: false,
+    type: 'POST',
+    data: 'page=1',
+    beforeSend: function(xhr) {
+      $('div#client').hide();
+      $('div#loading').show();
+    },
+    success: function(data) {
+      console.log(data);
+      populate_artists(data);
     },
     complete: function() {
       //laod the artist and album lists defualting to selecting "All" artists
