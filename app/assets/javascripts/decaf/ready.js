@@ -87,16 +87,6 @@ $(document).ready(function(){
     }
   });
 
-  //add listeners to artists
-  $('li.artist').click(function() {
-    clear_selected('artists');
-    clear_albums();
-    clear_tracks();
-    $(this).toggleClass('selected');
-    artist = $(this).text();
-    load_albums(artist);
-  });
-
   //add listeners to navigation
   $('li#search_button').click(function() {
     if (!$(this).hasClass('current')) {

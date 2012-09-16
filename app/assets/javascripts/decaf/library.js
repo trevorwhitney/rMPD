@@ -1,10 +1,3 @@
-//library is a hash of artists where library[artist] will return
-//a hash of albums by that artist.
-//The album hash is indexed by the albums name, and will return
-//an array of songs. Each song is a hash, as returned by MPD
-//for mor information, see the get_library() function, as well
-//as the library.json file
-var library = {};
 var track_list = {};
 var mpd_server = "http://localhost:3030/";
 var playlist = [];
@@ -16,28 +9,7 @@ function clear_menu() {
   $('#navigation_content > div').addClass('hidden');
 }
 
-//this builds the whole music library into memory. It takes the data object
-//returned by the above ajax call as it's argument. It then parses through this
-//object, which is bascially a hash of the library returned by the server.
-//The library object is populated with artists, which are each a hash of albums,
-//which are each an array of songs. Songs are a hash of attributes.
-function get_library(data) {
-  $.each(data.artists, function(i, artist){
-    var album_list = {};
-    $.each(artist.albums, function(j, album) {
-      $.each(album.songs, function(k, song) {
-        if (song['track'] != null) {
-          song['track'] = parseInt(song['track']);
-        }
-        song['date'] = parseInt(song['date']);
-        song['time'] = parseInt(song['time']);
-      });
-      album_list[album.name] = album.songs;
-    });
-    library[artist.name] = album_list;
-  });
-}
-
+/* Add artists to the listing */
 function populate_artists(data) {
   results = $.parseJSON(data);
   var artist_template = $('#artist_template').html();
@@ -47,6 +19,20 @@ function populate_artists(data) {
     }
     $("ul#artist_list").append(
       Mustache.render(artist_template, template_data));
+  });
+  add_artist_listeners();
+}
+
+/* Add listeners to artists to load albums */
+  //add listeners to artists
+function add_artist_listeners() {
+  $('li.artist').click(function() {
+    clear_selected('artists');
+    clear_albums();
+    clear_tracks();
+    $(this).toggleClass('selected');
+    artist = $(this).text();
+    load_albums(artist);
   });
 }
 
@@ -90,9 +76,10 @@ var clear_playlist = function() {
   });
 }
 
-//this will add click listeners to each element in the album_list
-//this is abstracted to it's own function since the listeners have to be
-//re-initialized after every time album_list is cleared
+/*this will add click listeners to each element in the album_list
+* this is abstracted to it's own function since the listeners have to be
+* re-initialized after every time album_list is cleared
+*/
 function add_album_listeners() {
   $('td.album_name').click(function(e) {
     clear_selected('albums');
@@ -140,44 +127,27 @@ function add_track_listeners() {
   });
 }
 
-//this populates the artist_list from a given library
-function load_artists(_library) {
-  var artists = [];
-  var artist_template = $('#artist_template').html();
-  $.each(_library, function(name, albums) {
-    if (name.length > 0 ) {
-      artists.push(name);
-    }
-  });
-  artists.sort();
-  $.each(artists, function(i, artist) {
-    var template_data = {
-      artist_name: artist
-    }
-    $("ul#artist_list").append(
-      Mustache.render(artist_template, template_data));
-  });
-}
-
-//this populates the album_list with albums that belong to a given artist
-//if the artist string is "All", it will add all albums to the list
-function load_albums(artist_string) {
-  var _albums = [];
+/* Load albums from server response */
+function load_albums(artist) {
   var album_template = $('script#album_template').html();
-  $albums = library[artist_string];
-  $.each($albums, function(name, songs) {
-    if ($.inArray(name, _albums) == -1) {
-      _albums.push(name);
+
+  $.ajax({
+    url: mpd_server + '/albums',
+    async: false,
+    type: 'POST',
+    data: 'artist=' + artist,
+    success: function(data) {
+      var albums = $.parseJSON(data).albums;
+      $.each(albums, function(i, album) {
+        var template_data = {
+          album_name: album
+        }
+        $("table#album_list").append(
+          Mustache.render(album_template, template_data));
+      });
     }
   });
-  _albums.sort();
-  $.each(_albums, function(i, album) {
-    var template_data = {
-      album_name: album
-    }
-    $("table#album_list").append(
-      Mustache.render(album_template, template_data));
-  });
+
   add_album_listeners();
 }
 
