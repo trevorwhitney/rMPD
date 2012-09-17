@@ -64,7 +64,10 @@ function add_album_to_playlist(album) {
     data: 'album=' + album,
     dataType: 'json',
     success: function(data) {
-      refresh_playlist();
+      var position = playlist.length - 1;
+      $.each(data, function(i, track) {
+        populate_local_playlist(track, (position + i));
+      })
     }
   })
 }
