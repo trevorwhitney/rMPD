@@ -1,9 +1,3 @@
-var track_list = {};
-var mpd_server = "http://localhost:3030/";
-var playlist = [];
-var popupStatus = 0;
-var current_song;
-
 /* Add artists to the UI */
 function populate_artists(data) {
   results = $.parseJSON(data);
@@ -46,7 +40,6 @@ function load_albums(artist) {
 /* Get tracks from the server, given an album */
 function load_tracks(album) {
   var track_template = $('#track_template').html();
-  console.log("loading tracks");
 
   $.ajax({
     url: mpd_server + '/tracks',
@@ -101,22 +94,17 @@ function add_album_listeners() {
     add_track_listeners();
   });
 
-  /*$('td.album_name').dblclick(function(e) {
+  $('td.album_name').dblclick(function(e) {
     e.preventDefault();
     clear_selection();
     var album = $(e.currentTarget).siblings('.album_name').text();
-    var artist = $('li.artist.selected').text();
-    add_album_to_playlist(artist, album, 
-      $(e.currentTarget).parent().hasClass('selected'));
+    add_album_to_playlist(album);
   });
 
   $('td.add_album').click(function () {
       var album = $(this).siblings('.album_name').text();
-      var artist = $('li.artist.selected').text();
-      add_album_to_playlist(artist, album, 
-        $(this).parent().hasClass('selected'));
+      add_album_to_playlist(album);
   });
-*/
 }
 
 function add_track_listeners() {
