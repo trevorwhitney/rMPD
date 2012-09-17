@@ -48,7 +48,7 @@ function refresh_playlist() {
       });
     },
     complete: function() {
-      adjust_playlist_widths;
+      adjust_playlist_widths();
       add_playlist_listeners();
     }
   });
@@ -61,31 +61,44 @@ function add_album_to_playlist(album) {
     url: mpd_server + '/playlist/add/album',
     async: true,
     type: 'POST',
-    data: 'album=' + album,
+    data: 'album=' + escape(album),
     dataType: 'json',
     success: function(data) {
-      var position = playlist.length - 1;
+      var position = 0;
+      if (playlist.length > 0) {
+        position = playlist.length;
+      }
       $.each(data, function(i, track) {
         populate_local_playlist(track, (position + i));
-      })
-    }
-  })
-}
-
-/*function add_track_to_playlist(track) {
-  $.ajax({
-    url: mpd_server + "add",
-    aync: true,
-    data: 'filename=' + track.file,
-    dataType: 'json',
-    type: "POST",
-    success: function(data) {
-      populate_local_playlist(data, position);
+      });
+    },
+    complete: function() {
       adjust_playlist_widths();
       add_playlist_listeners();
     }
   });
-}*/
+}
+
+function add_track_to_playlist(track) {
+  $.ajax({
+    url: mpd_server + "add",
+    aync: true,
+    data: 'filename=' + escape(track.file),
+    dataType: 'json',
+    type: "POST",
+    success: function(data) {
+      var position = 0;
+      if (playlist.length > 0) {
+        position = playlist.length;
+      }
+      populate_local_playlist(data, position);
+    },
+    complete: function() {
+      adjust_playlist_widths();
+      add_playlist_listeners();
+    }
+  });
+}
 
 
 function add_playlist_listeners() {
@@ -114,6 +127,9 @@ var clear_playlist = function() {
       $('tr.playlist_item').remove();
       reset_slider();
       $('li#play').removeClass('pause');
+    },
+    complete: function() {
+      playlist = [];
     }
   });
 }
