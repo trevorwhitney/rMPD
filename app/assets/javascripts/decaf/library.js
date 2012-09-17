@@ -1,3 +1,5 @@
+var track_list = {};
+
 /* Add artists to the UI */
 function populate_artists(data) {
   results = $.parseJSON(data);
@@ -12,7 +14,7 @@ function populate_artists(data) {
   add_artist_listeners();
 }
 
-/* Load albums from server response */
+/* Load all albums belongin to a specific artist */
 function load_albums(artist) {
   var album_template = $('script#album_template').html();
 
@@ -20,7 +22,7 @@ function load_albums(artist) {
     url: mpd_server + '/albums',
     async: true,
     type: 'POST',
-    data: 'artist=' + artist,
+    data: 'artist=' + escape(artist),
     success: function(data) {
       var albums = $.parseJSON(data);
       $.each(albums, function(i, album) {
@@ -45,7 +47,7 @@ function load_tracks(album) {
     url: mpd_server + '/tracks',
     async: true,
     type: 'POST',
-    data: 'album=' + album,
+    data: 'album=' + escape(album),
     success: function(data) {
       // Frist load tracks without numbers
       var tracks = $.parseJSON(data);
@@ -56,6 +58,7 @@ function load_tracks(album) {
         }
         $("table#track_list").append(
           Mustache.render(track_template, template_data));
+        track_list[song.title] = song;
       })
 
       // Now load the rest
@@ -66,7 +69,11 @@ function load_tracks(album) {
         }
         $("table#track_list").append(
           Mustache.render(track_template, template_data));
+        track_list[song.title] = song;
       });
+    },
+    complete: function() {
+      add_track_listeners();
     }
   });
 }
@@ -201,8 +208,10 @@ function get_album_art(artist, album, thumbnail) {
       url: "http://ws.audioscrobbler.com/2.0/",
       type: "POST",
       dataType: "json",
-      data: "method=album.getinfo&api_key=c433c18b364aec4369ecb3c151f06f79" + 
-        "&artist=" + artist + "&album=" + album + "&format=json",
+      data: "method=album.getinfo" + 
+        "&api_key=c433c18b364aec4369ecb3c151f06f79" + 
+        "&artist=" + escape(artist) + "&album=" + escape(album) + 
+        "&format=json",
       success: function(data) {
         if (data.error == null) {
           if (data.album.image[2]["#text"].length > 0) {
