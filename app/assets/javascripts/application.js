@@ -15,3 +15,8 @@
 //= require colResizable-1.3.min.js
 //= require jquery-ui-1.8.20.custom.min.js
 //= require mustache.js
+
+var track_list = {};
+var mpd_server = "http://localhost:3030/";
+var popupStatus = 0;
+var current_song;

@@ -1,5 +1,3 @@
-var mpd_server = "http://localhost:3030/";
-
 var timer = new WebSocket("ws://localhost:3001/");
 timer.onmessage = function(message) {
   message = $.parseJSON(message.data);
