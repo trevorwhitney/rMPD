@@ -1,5 +1,3 @@
-var mpd_server = "http://localhost:3030/";
-
 //wait for the page to load, and then set everything up here
 $(document).ready(function(){
   //get the library, which is contained in a cached json file
@@ -60,19 +58,7 @@ $(document).ready(function(){
   });
 
   //load the current playlist
-  $.ajax({
-    url: mpd_server + 'playlist',
-    aync: true,
-    dataType: 'json',
-    success: function(data) {
-      $.each(data, function(i, track) {
-        playlist.push(track.title);
-        populate_local_playlist(track, i);
-      });
-      adjust_playlist_widths;
-      add_playlist_listeners();
-    }
-  });
+  refresh_playlist();
 
   //load the current song
   $.ajax({

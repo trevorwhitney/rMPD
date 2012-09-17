@@ -1,3 +1,5 @@
+var playlist = [];
+
 /* This file contains functions relating to playlist funcationality.
 * For example:
 *   -Adding items to the playlist
@@ -30,31 +32,44 @@ function populate_local_playlist(track, position) {
   playlist[position] = track.title;
 }
 
-/* Add items to playlist */
+function refresh_playlist() {
+  playlist = [];
+  $('tr.playlist_item').remove();
+  reset_slider();
+  $('li#play').removeClass('pause');
 
-function add_album_to_playlist(artist, album, selected) {
-  var tracks = {};
-  var _tracks = {};
-  var track_nums = [];
-  var tracks_to_add = [];
-
-
-  //if album is currently selected, the track list is already loaded
-  if (selected) {
-    tracks_to_add = track_list;
-  }
-  else {
-    var tracks = library[artist][album];
-    $.each(tracks, function(i, track) {
-      tracks_to_add.push(track);
-    });
-  }
-  $.each(tracks_to_add, function(i, track) {
-    add_track_to_playlist(track);
+  $.ajax({
+    url: mpd_server + 'playlist',
+    async: true,
+    dataType: 'json',
+    success: function(data) {
+      $.each(data, function(i, track) {
+        populate_local_playlist(track, i);
+      });
+    },
+    complete: function() {
+      adjust_playlist_widths;
+      add_playlist_listeners();
+    }
   });
 }
 
-function add_track_to_playlist(track) {
+/* Add items to playlist */
+
+function add_album_to_playlist(album) {
+  $.ajax({
+    url: mpd_server + '/playlist/add/album',
+    async: true,
+    type: 'POST',
+    data: 'album=' + album,
+    dataType: 'json',
+    success: function(data) {
+      refresh_playlist();
+    }
+  })
+}
+
+/*function add_track_to_playlist(track) {
   $.ajax({
     url: mpd_server + "add",
     aync: true,
@@ -62,14 +77,12 @@ function add_track_to_playlist(track) {
     dataType: 'json',
     type: "POST",
     success: function(data) {
-      var position = playlist.length;
-      playlist[position] = data.title;
       populate_local_playlist(data, position);
       adjust_playlist_widths();
       add_playlist_listeners();
     }
   });
-}
+}*/
 
 
 function add_playlist_listeners() {
@@ -96,7 +109,6 @@ var clear_playlist = function() {
     async: true,
     success: function(data) {
       $('tr.playlist_item').remove();
-      playlist = [];
       reset_slider();
       $('li#play').removeClass('pause');
     }
