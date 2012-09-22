@@ -15,3 +15,4 @@
 //= require colResizable-1.3.min.js
 //= require jquery-ui-1.8.20.custom.min.js
 //= require mustache.js
+//= require waypoints.min.js
