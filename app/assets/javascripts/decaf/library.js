@@ -17,16 +17,18 @@ function get_artists(page) {
 /* Add artists to the UI */
 function populate_artists(data) {
   var artist_template = $('#artist_template').html();
-  $.each(data.artists, function(i, artist) {
-    var template_data = {
-      artist_name: artist
-    }
-    $("ul#artist_list").append(
-        Mustache.render(artist_template, template_data));
-  });
+  if (!data.last_page) {
+    $.each(data.artists, function(i, artist) {
+      var template_data = {
+        artist_name: artist
+      }
+      $("ul#artist_list").append(
+          Mustache.render(artist_template, template_data));
+    });
 
-  update_artist_waypoint();
-  add_artist_listeners();
+    update_artist_waypoint();
+    add_artist_listeners();
+  }
 }
 
 function update_artist_waypoint() {
