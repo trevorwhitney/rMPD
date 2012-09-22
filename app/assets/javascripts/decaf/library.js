@@ -1,5 +1,5 @@
 var track_list = {};
-var artist_page = 1;
+var artist_page = 0;
 
 function get_artists(page) {
   $.ajax({
