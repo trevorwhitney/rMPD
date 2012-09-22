@@ -1,17 +1,47 @@
 var track_list = {};
+var artist_page = 1;
+
+function get_artists(page) {
+  $.ajax({
+    url: mpd_server + 'artists',
+    async: true,
+    type: 'POST',
+    data: 'page=' + page,
+    dataType: 'json',
+    success: function(data) {
+      populate_artists(data);
+    }
+  })
+}
 
 /* Add artists to the UI */
 function populate_artists(data) {
-  results = $.parseJSON(data);
   var artist_template = $('#artist_template').html();
-  $.each(results.artists, function(i, artist) {
+  $.each(data.artists, function(i, artist) {
     var template_data = {
       artist_name: artist
     }
     $("ul#artist_list").append(
-      Mustache.render(artist_template, template_data));
+        Mustache.render(artist_template, template_data));
   });
+
+  update_artist_waypoint();
   add_artist_listeners();
+}
+
+function update_artist_waypoint() {
+  $('ul#artist_list').waypoint(
+    function(event, direction) {
+      if (direction == "down") {
+        artist_page += 1;
+        get_artists(artist_page);
+      }
+    },
+    {
+      context: $('div#artists'),
+      triggerOnce: true,
+      offset: 'bottom-in-view'
+    });
 }
 
 /* Load all albums belongin to a specific artist */
@@ -19,7 +49,7 @@ function load_albums(artist) {
   var album_template = $('script#album_template').html();
 
   $.ajax({
-    url: mpd_server + '/albums',
+    url: mpd_server + 'albums',
     async: true,
     type: 'POST',
     data: 'artist=' + escape(artist),
