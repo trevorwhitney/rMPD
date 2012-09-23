@@ -88,7 +88,41 @@
       %li#playlist_button Playlists
     #navigation_content
       #search_content.hidden
-        %h2 Search
+        #search_results_header
+          %table#search_results_table_header
+            %thead
+              %tr.header
+                %th.track
+                  %div
+                    %span.heading
+                      %p #
+                    %span.border &nbsp;
+                %th.title
+                  %div
+                    %span.heading
+                      %p Title
+                    %span.border &nbsp;
+                %th.artist
+                  %div
+                    %span.heading
+                      %p Artist
+                    %span.border &nbsp;
+                %th.album
+                  %div
+                    %span.heading
+                      %p Album
+                    %span.border &nbsp;
+                %th.time
+                  %div
+                    %span.heading
+                      %p Time
+                    %span.border &nbsp;
+                %th.file
+                  %div
+                    %span.heading
+                      %p File
+        #search_results
+          %table#search_results_table
       #library_content
         #artists
           %ul#artist_list

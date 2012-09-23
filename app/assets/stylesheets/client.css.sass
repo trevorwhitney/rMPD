@@ -16,83 +16,6 @@
   background-color: rgba(0, 0, 0, 0.3)
   color: rgba(254, 254, 254, 0.8)
 
-@mixin song-listing-spacing
-  table tr
-    .track
-      width: 2%
-      p
-        text-align: center
-    .title
-      width: 23%
-    .artist
-      width: 21%
-    .album
-      width: 22%
-    .time
-      width: 7%
-      p
-        text-align: center
-    .file
-      width: 25%
-
-@mixin song-listing-header
-  width: 100%
-  tr.header
-    background-color: rgba(220, 220, 220, 0.9)
-    color: rgb(0, 0, 0)
-    height: 25px
-    line-height: 25px
-    th
-      text-align: center
-      div
-        height: $table-header-font-size + 2
-        span.heading
-          float: left
-          display: block
-          width: 89%
-          p
-            margin: 0 auto
-            padding: 0
-        span.border
-          width: 1px
-          border-right: 1px rgb(0, 0, 0) solid
-          +float(right)
-
-@mixin song-listing-table
-  width: 100%
-  tr
-    border-bottom: 1px rgb(69, 69, 69) solid
-    cursor: pointer
-    td
-      height: $table-font-size
-      overflow: hidden
-      div
-        overflow: hidden
-        font-size: $table-font-size
-        line-height: $table-font-size
-        height: $table-font-size + 4
-        width: 100%
-        p
-          +float(left)
-          height: $table-font-size + 4
-          line-height: $table-font-size + 4
-          overflow: hidden
-          display: block
-          width: 96%
-          margin-left: 2%
-        span
-          border-right: 1px rgb(69, 69, 69) solid
-          +float(right)
-          width: 1%
-          height: $table-font-size + 4
-  tr:nth-child(even)
-    background-color: rgba(65, 65, 65, 0.3)
-    color: darken($off-white, 10%)
-  tr.blank
-    border-bottom: 0
-  tr.current
-    +selected
-
 #controls, #navigation, #playlist
   float: none
   clear: both
@@ -235,10 +158,6 @@
       background-color: $light-blue
     li#playlist_button
       border-right: 0
-  div
-    +float(left)
-    height: 100%
-    margin-top: 0
   div.hidden
     display: none
 
@@ -247,6 +166,13 @@
     background-color: $dark-grey
     & > div
       width: 100%
+
+  #library_content, #artists, #albums, #tracks
+    +float(left)
+    height: 100%
+    margin-top: 0
+    &.hidden
+      display: none
 
   #artists
     +inset-box
@@ -328,37 +254,91 @@
 $table-font-size: 12pt
 $table-header-font-size: 14pt
 
-#search_results_header, #search_results
-  +song-listing-spacing
-  border-top: 10px #000 solid
-#search_results_header
-  background-color: rgb(220, 220, 220)
-  height: 25px
-#search_results
-  +vertical-scroll
-  +inset-box
-  margin-bottom: 4px
-table#search_results_table_header
-  +song-listing-header
-table#search_results_table
-  +song-listing-table
-
-#playlist_header, #playlist
-  +song-listing-spacing
+#playlist_header, #search_results_header, #playlist, #search_results
   border-top: 1px #000 solid
-  td.position
-    display: none
-#playlist_header
+  table tr
+    .track
+      width: 2%
+      p
+        text-align: center
+    .title
+      width: 23%
+    .artist
+      width: 21%
+    .album
+      width: 22%
+    .time
+      width: 7%
+      p
+        text-align: center
+    .file
+      width: 25%
+    .position
+      display: none
+#playlist_header, #search_results_header
   background-color: rgb(220, 220, 220)
   height: 25px
-#playlist
+#playlist, #search_results
   +vertical-scroll
   margin-bottom: 4px
   +inset-box
-table#playlist_table_header
-  +song-listing-header
-table#playlist_table
-  +song-listing-table
+table#playlist_table_header, table#search_results_table_header
+  width: 100%
+  tr.header
+    background-color: rgba(220, 220, 220, 0.9)
+    color: rgb(0, 0, 0)
+    height: 25px
+    line-height: 25px
+    th
+      text-align: center
+      div
+        height: $table-header-font-size + 2
+        span.heading
+          float: left
+          display: block
+          width: 89%
+          p
+            margin: 0 auto
+            padding: 0
+        span.border
+          width: 1px
+          border-right: 1px rgb(0, 0, 0) solid
+          +float(right)
+
+table#playlist_table, table#search_results_table
+  width: 100%
+  tr
+    border-bottom: 1px rgb(69, 69, 69) solid
+    cursor: pointer
+    td
+      height: $table-font-size
+      overflow: hidden
+      div
+        overflow: hidden
+        font-size: $table-font-size
+        line-height: $table-font-size
+        height: $table-font-size + 4
+        width: 100%
+        p
+          +float(left)
+          height: $table-font-size + 4
+          line-height: $table-font-size + 4
+          overflow: hidden
+          display: block
+          width: 96%
+          margin-left: 2%
+        span
+          border-right: 1px rgb(69, 69, 69) solid
+          +float(right)
+          width: 1%
+          height: $table-font-size + 4
+  tr:nth-child(even)
+    background-color: rgba(65, 65, 65, 0.3)
+    color: darken($off-white, 10%)
+  tr.blank
+    border-bottom: 0
+  tr.current
+    +selected
 #clear_playlist
   margin-bottom: 3px
   cursor: pointer
