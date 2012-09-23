@@ -40,6 +40,32 @@
       %div
         %p {{ file }}
         %span &nbsp;
+%script#search_result_template{ :type => "text/html" }
+  %tr.playlist_item
+    %td.track
+      %div
+        %p {{ track_number }}
+        %span &nbsp;
+    %td.title
+      %div
+        %p {{ title }}
+        %span &nbsp;
+    %td.artist
+      %div
+        %p {{ artist }}
+        %span &nbsp;
+    %td.album
+      %div
+        %p {{ album }}
+        %span &nbsp;
+    %td.time
+      %div
+        %p {{ time }}
+        %span &nbsp;
+    %td.file
+      %div
+        %p {{ file }}
+        %span &nbsp;
 
 #loading
   %h1 Loading...
@@ -88,6 +114,41 @@
       %li#playlist_button Playlists
     #navigation_content
       #search_content.hidden
+        #search_results_header
+          %table#search_results_table_header
+            %thead
+              %tr.header
+                %th.track
+                  %div
+                    %span.heading
+                      %p #
+                    %span.border &nbsp;
+                %th.title
+                  %div
+                    %span.heading
+                      %p Title
+                    %span.border &nbsp;
+                %th.artist
+                  %div
+                    %span.heading
+                      %p Artist
+                    %span.border &nbsp;
+                %th.album
+                  %div
+                    %span.heading
+                      %p Album
+                    %span.border &nbsp;
+                %th.time
+                  %div
+                    %span.heading
+                      %p Time
+                    %span.border &nbsp;
+                %th.file
+                  %div
+                    %span.heading
+                      %p File
+        #search_results
+          %table#search_results_table
       #library_content
         #artists
           %ul#artist_list
