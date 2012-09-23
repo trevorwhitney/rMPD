@@ -54,7 +54,6 @@ $(document).ready(function(){
   $('li#search_button').click(function() {
     if (!$(this).hasClass('current')) {
       clear_menu();
-      console.log($('#navigation_content #search_content'));
       $('#navigation_content #search_content').removeClass('hidden');
       $(this).addClass('current');
     }
@@ -88,7 +87,7 @@ $(document).ready(function(){
 
   set_height();
   set_song_info_width();
-  set_search_result_widths();
+  //set_search_result_widths();
   set_playlist_width();
   $(window).resize(function() {
     set_height();
@@ -96,11 +95,11 @@ $(document).ready(function(){
     set_playlist_width();
   });
 
-  $('table#search_results_table_header').colResizable({
+  /*$('table#search_results_table_header').colResizable({
     liveDrag: false,
     headerOnly: true,
     onResize: adjust_search_result_widths
-  });
+  });*/
 
   $('table#playlist_table_header').colResizable({
     liveDrag: false,
