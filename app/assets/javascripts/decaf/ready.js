@@ -88,11 +88,18 @@ $(document).ready(function(){
 
   set_height();
   set_song_info_width();
+  set_search_result_widths();
   set_playlist_width();
   $(window).resize(function() {
     set_height();
     set_song_info_width();
     set_playlist_width();
+  });
+
+  $('table#search_results_table_header').colResizable({
+    liveDrag: false,
+    headerOnly: true,
+    onResize: adjust_search_result_widths
   });
 
   $('table#playlist_table_header').colResizable({
