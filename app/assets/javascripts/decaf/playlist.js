@@ -58,6 +58,7 @@ function refresh_playlist() {
 
 function add_album_to_playlist(album) {
   $.ajax({
+    //this should be /playlist/album, POST means add
     url: mpd_server + '/playlist/add/album',
     async: true,
     type: 'POST',

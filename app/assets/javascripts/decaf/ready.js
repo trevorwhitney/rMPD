@@ -2,9 +2,9 @@
 $(document).ready(function(){
   //Load the first page of artists
   $.ajax({
-    url: mpd_server + 'artists',
+    url: mpd_server + 'library/artists',
     async: false,
-    type: 'POST',
+    type: 'GET',
     data: 'page=' + artist_page,
     dataType: 'json',
     beforeSend: function(xhr) {
