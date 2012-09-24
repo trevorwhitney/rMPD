@@ -95,11 +95,11 @@ $(document).ready(function(){
     set_playlist_width();
   });
 
-  /*$('table#search_results_table_header').colResizable({
+  $('table#search_results_table_header').colResizable({
     liveDrag: false,
     headerOnly: true,
     onResize: adjust_search_result_widths
-  });*/
+  });
 
   $('table#playlist_table_header').colResizable({
     liveDrag: false,

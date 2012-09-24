@@ -1,10 +1,8 @@
-/*
-
-function set_search_result_widths() {
+/*function set_search_result_widths() {
   var search_results_width = $('table#search_results_table').width();
   $('table#search_results_table_header').width(search_results_width);
   adjust_search_result_header_widths();
-}
+}*/
 
 
 var adjust_search_result_header_widths = function() {
@@ -45,4 +43,3 @@ var adjust_search_result_widths = function() {
     $(row).children('.file').width(file);
   }
 }
-*/
