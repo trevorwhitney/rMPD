@@ -194,6 +194,6 @@ function set_height() {
   inner_height = (height - 170 ) / 2;
   $('#navigation').height(inner_height)
   $('#navigation_content').height(inner_height - 27);
-  $('#search_results').height(inner_height - 53);
+  $('#search_results').height(inner_height - 107);
   $('#playlist').height(inner_height - 26);
 }
