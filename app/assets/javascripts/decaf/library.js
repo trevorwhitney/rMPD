@@ -3,9 +3,9 @@ var artist_page = 0;
 
 function get_artists(page) {
   $.ajax({
-    url: mpd_server + 'artists',
+    url: mpd_server + 'library/artists',
     async: true,
-    type: 'POST',
+    type: 'GET',
     data: 'page=' + page,
     dataType: 'json',
     success: function(data) {
@@ -51,7 +51,7 @@ function load_albums(artist) {
   var album_template = $('script#album_template').html();
 
   $.ajax({
-    url: mpd_server + 'albums',
+    url: mpd_server + '/library/albums',
     async: true,
     type: 'POST',
     data: 'artist=' + escape(artist),
@@ -76,9 +76,9 @@ function load_tracks(album) {
   var track_template = $('#track_template').html();
 
   $.ajax({
-    url: mpd_server + '/tracks',
+    url: mpd_server + '/library/album',
     async: true,
-    type: 'POST',
+    type: 'GET',
     data: 'album=' + escape(album),
     success: function(data) {
       // Frist load tracks without numbers

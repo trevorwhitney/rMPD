@@ -2,9 +2,9 @@
 $(document).ready(function(){
   //Load the first page of artists
   $.ajax({
-    url: mpd_server + 'artists',
+    url: mpd_server + 'library/artists',
     async: false,
-    type: 'POST',
+    type: 'GET',
     data: 'page=' + artist_page,
     dataType: 'json',
     beforeSend: function(xhr) {
@@ -23,7 +23,7 @@ $(document).ready(function(){
   //set up interface
   add_control_listeners();
   $.ajax({
-    url: mpd_server + 'current_state',
+    url: mpd_server + 'player/state',
     async: true,
     success: function(data) {
       pause_regex = new RegExp("pause");
@@ -42,7 +42,7 @@ $(document).ready(function(){
 
   //load the current song
   $.ajax({
-    url: mpd_server + 'current_song',
+    url: mpd_server + 'player/current_song',
     dataType: 'json',
     success: function(data) { 
       if (!data.no_song)
@@ -145,4 +145,10 @@ $(document).ready(function(){
       })
     }
   });
+
+
+  //setup local music playback
+  var player = document.getElementById("audio_player");
+  console.debug(player);
+  player.play();
 });

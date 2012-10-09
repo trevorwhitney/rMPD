@@ -2,7 +2,7 @@ var mpd_server = "http://localhost:3030/";
 
 var pause = function() {
   $.ajax({
-    url: mpd_server + 'pause',
+    url: mpd_server + 'player/pause',
     async: true,
     success: function(data) {
       $('li#play').removeClass('pause');
@@ -12,7 +12,7 @@ var pause = function() {
 
 var play = function() {
   $.ajax({
-    url: mpd_server + "play",
+    url: mpd_server + "player/play",
     aync: true,
     success: function(data) {
       $('li#play').addClass('pause');
@@ -23,7 +23,7 @@ var play = function() {
 function add_control_listeners() {
   $('li#previous').click(function() {
     $.ajax({
-      url: mpd_server + 'previous',
+      url: mpd_server + 'player/previous',
       async: true,
       dataType: 'json',
       success: function(data) {
@@ -45,7 +45,7 @@ function add_control_listeners() {
   });
   $('li#stop').click(function() {
     $.ajax({
-      url: mpd_server + "stop",
+      url: mpd_server + "player/stop",
       async: true,
       success: function(data) {
         $('li#play').removeClass('pause');
@@ -55,7 +55,7 @@ function add_control_listeners() {
   });
   $('li#next').click(function() {
     $.ajax({
-      url: mpd_server + 'next',
+      url: mpd_server + 'player/next',
       async: true,
       dataType: 'json',
       success: function(data) {

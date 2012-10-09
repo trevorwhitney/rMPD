@@ -58,7 +58,7 @@ function refresh_playlist() {
 
 function add_album_to_playlist(album) {
   $.ajax({
-    url: mpd_server + '/playlist/add/album',
+    url: mpd_server + '/playlist/album',
     async: true,
     type: 'POST',
     data: 'album=' + escape(album),
@@ -81,7 +81,7 @@ function add_album_to_playlist(album) {
 
 function add_track_to_playlist(track) {
   $.ajax({
-    url: mpd_server + "add",
+    url: mpd_server + "playlist/track",
     aync: true,
     data: 'filename=' + escape(track.file),
     dataType: 'json',
