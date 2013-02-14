@@ -158,10 +158,6 @@
       background-color: $light-blue
     li#playlist_button
       border-right: 0
-  div
-    +float(left)
-    height: 100%
-    margin-top: 0
   div.hidden
     display: none
 
@@ -170,6 +166,13 @@
     background-color: $dark-grey
     & > div
       width: 100%
+
+  #library_content, #artists, #albums, #tracks
+    +float(left)
+    height: 100%
+    margin-top: 0
+    &.hidden
+      display: none
 
   #artists
     +inset-box
@@ -248,10 +251,24 @@
     td.add_track
       background: url('list-add.png') no-repeat top right
 
+form#search_form
+  input#search_query
+    width: 70%
+    padding-right: 10px
+    background: rgba(0, 0, 0, 0.3)
+    color: #FFF
+  #search_type
+    +float(right)
+    select
+      padding: 5px
+      background: rgba(0, 0, 0, 0.3)
+      color: #FFF
+      font-weight: bold
+
 $table-font-size: 12pt
 $table-header-font-size: 14pt
 
-#playlist_header, #playlist
+#playlist_header, #search_results_header, #playlist, #search_results
   border-top: 1px #000 solid
   table tr
     .track
@@ -272,14 +289,14 @@ $table-header-font-size: 14pt
       width: 25%
     .position
       display: none
-#playlist_header
+#playlist_header, #search_results_header
   background-color: rgb(220, 220, 220)
   height: 25px
-#playlist
+#playlist, #search_results
   +vertical-scroll
   margin-bottom: 4px
   +inset-box
-table#playlist_table_header
+table#playlist_table_header, table#search_results_table_header
   width: 100%
   tr.header
     background-color: rgba(220, 220, 220, 0.9)
@@ -302,7 +319,7 @@ table#playlist_table_header
           border-right: 1px rgb(0, 0, 0) solid
           +float(right)
 
-table#playlist_table
+table#playlist_table, table#search_results_table
   width: 100%
   tr
     border-bottom: 1px rgb(69, 69, 69) solid

@@ -23,7 +23,7 @@ $(document).ready(function(){
   //set up interface
   add_control_listeners();
   $.ajax({
-    url: mpd_server + 'current_state',
+    url: mpd_server + 'player/state',
     async: true,
     success: function(data) {
       pause_regex = new RegExp("pause");
@@ -42,7 +42,7 @@ $(document).ready(function(){
 
   //load the current song
   $.ajax({
-    url: mpd_server + 'current_song',
+    url: mpd_server + 'player/current_song',
     dataType: 'json',
     success: function(data) { 
       if (!data.no_song)
@@ -54,7 +54,6 @@ $(document).ready(function(){
   $('li#search_button').click(function() {
     if (!$(this).hasClass('current')) {
       clear_menu();
-      console.log($('#navigation_content #search_content'));
       $('#navigation_content #search_content').removeClass('hidden');
       $(this).addClass('current');
     }
@@ -88,11 +87,18 @@ $(document).ready(function(){
 
   set_height();
   set_song_info_width();
+  //set_search_result_widths();
   set_playlist_width();
   $(window).resize(function() {
     set_height();
     set_song_info_width();
     set_playlist_width();
+  });
+
+  $('table#search_results_table_header').colResizable({
+    liveDrag: false,
+    headerOnly: true,
+    onResize: adjust_search_result_widths
   });
 
   $('table#playlist_table_header').colResizable({
@@ -139,4 +145,10 @@ $(document).ready(function(){
       })
     }
   });
+
+
+  //setup local music playback
+  var player = document.getElementById("audio_player");
+  console.debug(player);
+  player.play();
 });

@@ -51,7 +51,7 @@ function load_albums(artist) {
   var album_template = $('script#album_template').html();
 
   $.ajax({
-    url: mpd_server + 'library/albums',
+    url: mpd_server + '/library/albums',
     async: true,
     type: 'GET',
     data: 'artist=' + escape(artist),
@@ -76,7 +76,7 @@ function load_tracks(album) {
   var track_template = $('#track_template').html();
 
   $.ajax({
-    url: mpd_server + 'library/tracks',
+    url: mpd_server + '/library/album',
     async: true,
     type: 'GET',
     data: 'album=' + escape(album),

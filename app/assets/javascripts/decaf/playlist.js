@@ -58,8 +58,7 @@ function refresh_playlist() {
 
 function add_album_to_playlist(album) {
   $.ajax({
-    //this should be /playlist/album, POST means add
-    url: mpd_server + '/playlist/add/album',
+    url: mpd_server + '/playlist/album',
     async: true,
     type: 'POST',
     data: 'album=' + escape(album),
@@ -82,7 +81,7 @@ function add_album_to_playlist(album) {
 
 function add_track_to_playlist(track) {
   $.ajax({
-    url: mpd_server + "add",
+    url: mpd_server + "playlist/track",
     aync: true,
     data: 'filename=' + escape(track.file),
     dataType: 'json',
@@ -195,5 +194,6 @@ function set_height() {
   inner_height = (height - 170 ) / 2;
   $('#navigation').height(inner_height)
   $('#navigation_content').height(inner_height - 27);
+  $('#search_results').height(inner_height - 107);
   $('#playlist').height(inner_height - 26);
 }

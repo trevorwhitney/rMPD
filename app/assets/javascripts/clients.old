@@ -1,0 +1,7 @@
+//= require_tree ./clients
+var mpd_server = "http://localhost:3030/";
+var popupStatus = 0;
+var current_song;
+var track_list = {}
+var artist_page = 0
+var popup_status = 0
